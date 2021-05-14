@@ -1,0 +1,25 @@
+{
+  "name": "safire",
+  "version": "0.1.0",
+  "description": "TypeScript discord.js bot utilizing the Sapphire framework",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/BrynAlt/safire.git"
+  },
+  "keywords": [
+    "discord",
+    "discordjs",
+    "sapphire",
+    "typescript"
+  ],
+  "author": "Bryn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/BrynAlt/safire/issues"
+  },
+  "homepage": "https://gitlab.com/BrynAlt/safire#readme"
+}
