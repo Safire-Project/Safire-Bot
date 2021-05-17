@@ -20,6 +20,7 @@ init:
   stage: init
   script:
     - npm install
+    - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
 
 build:
   stage: build

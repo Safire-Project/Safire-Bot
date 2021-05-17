@@ -5,4 +5,4 @@ const client = new SapphireClient({
   defaultPrefix: "?",
 });
 
-client.login(process.env.token ?? "");
+client.login(process.env.DISCORD_TOKEN ?? "");
