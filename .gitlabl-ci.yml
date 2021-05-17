@@ -1,0 +1,32 @@
+image: node:current-alpine3.11
+
+stages:
+  - init
+  - build
+  - deploy
+
+before_script:
+  - echo "Pipeline ID = $CI_PIPELINE_ID"
+  - echo "Project name = $CI_PROJECT_NAME"
+  - echo "Build ref = $CI_BUILD_REF_NAME"
+  - pwd
+  - ls -ail
+
+cache:
+  paths:
+    - node_modules/
+
+init:
+  stage: init
+  script:
+    - npm install
+
+build:
+  stage: build
+  script:
+    - tsc
+
+deploy:
+  stage: deploy
+  script:
+    - node .
