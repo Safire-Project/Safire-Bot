@@ -35,4 +35,4 @@ build:
 deploy:
   stage: deploy
   script:
-    - pm2 start dist/index.js
+    - npx pm2 start dist/index.js
