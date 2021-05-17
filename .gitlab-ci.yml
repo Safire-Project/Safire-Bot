@@ -25,7 +25,11 @@ build:
   stage: build
   script:
     - npm install --only-dev
-    - tsc
+    - npx tsc --version
+    - npx tsc
+  artifacts:
+    paths:
+      - dist
 
 deploy:
   stage: deploy
