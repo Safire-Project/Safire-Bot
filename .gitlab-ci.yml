@@ -24,6 +24,7 @@ init:
 build:
   stage: build
   script:
+    - npm install --only-dev
     - tsc
 
 deploy:
