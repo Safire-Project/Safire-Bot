@@ -2,6 +2,7 @@ image: node:current-alpine3.11
 
 stages:
   - init
+  - lint
   - build
   - deploy
 
@@ -16,13 +17,19 @@ cache:
   paths:
     - node_modules/
 
-init:
+initialize_npm:
   stage: init
   script:
     - npm install
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
 
-build:
+eslint:
+  stage: lint
+  script:
+    - npm install --only-dev
+    - npx eslint . --ext .ts
+
+compile_typescript:
   stage: build
   script:
     - npm install --only-dev
@@ -32,7 +39,7 @@ build:
     paths:
       - dist
 
-deploy:
+pm2_start:
   stage: deploy
   script:
     - npx pm2 start dist/index.js
