@@ -62,7 +62,7 @@ semgrep:
 jest-junit:
   stage: test
   script:
-    - "jest --ci --reporters=default --reporters=jest-junit"
+    - "npx jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
   artifacts:
     when: always
     reports:
