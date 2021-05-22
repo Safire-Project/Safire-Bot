@@ -31,6 +31,9 @@ eslint:
   script:
     - npm install --only-dev
     - npx eslint . --ext .ts --format gitlab
+  artifacts:
+    reports:
+      codequality: gl-codequality.json
 
 compile_typescript:
   stage: build
