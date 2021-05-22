@@ -66,6 +66,6 @@
     "@sapphire/framework": "^1.0.2",
     "@types/ws": "^7.4.4",
     "discord.js": "^12.5.3",
-    "dotenv": "^9.0.2"
+    "dotenv": "^10.0.0"
   }
 }

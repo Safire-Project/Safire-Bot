@@ -4,26 +4,35 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
 image: node:current-alpine3.11
+
 stages:
   - init
   - lint
   - build
   - test
   - deploy
+
 before_script:
   - echo "Pipeline ID = $CI_PIPELINE_ID"
   - echo "Project name = $CI_PROJECT_NAME"
   - echo "Build ref = $CI_BUILD_REF_NAME"
   - pwd
   - ls -ail
+
+after_script:
+  - pwd
+  - ls -ail
+
 cache:
   paths:
     - node_modules/
+
 initialize_npm:
   stage: init
   script:
     - npm install
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
+
 eslint:
   stage: lint
   script:
@@ -32,6 +41,7 @@ eslint:
   artifacts:
     reports:
       codequality: gl-codequality.json
+
 compile_typescript:
   stage: build
   script:
@@ -42,15 +52,17 @@ compile_typescript:
     paths:
       - dist
 
-semgrep-sast:
-  cache: {}
-
 sast:
   stage: test
-  variables:
-    SAST_EXCLUDED_ANALYZERS: semgrep
+
 include:
   - template: Security/SAST.gitlab-ci.yml
+
+variables:
+  SAST_EXPERIMENTAL_FEATURES: "true"
+
+semgrep-sast:
+  cache: {}
 
 semgrep:
   stage: test
