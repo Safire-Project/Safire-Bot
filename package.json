@@ -24,7 +24,6 @@
   },
   "homepage": "https://gitlab.com/BrynAlt/safire#readme",
   "devDependencies": {
-    "@getify/eslint-plugin-proper-arrows": "^11.0.3",
     "@jest/types": "^26.6.2",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.3",

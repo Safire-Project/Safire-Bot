@@ -10,7 +10,8 @@ export default class ReadyEvent extends Event {
     });
   }
 
-  async run(): undefined {
+  async run(): Promise<void> {
     this.context.logger.info('The bot is working.');
+    return Promise.resolve();
   }
 }

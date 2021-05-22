@@ -9,6 +9,6 @@ const client = new SapphireClient({
 });
 
 client
-  .login(process.env.DISCORD_TOKEN ?? '')
-  .then(client.logger.info('Logged In.'))
-  .catch(client.logger.fatal('Could Not Log In.'));
+  .login(process.env['DISCORD_TOKEN'] ?? '')
+  .then(() => client.logger.info('Logged In.'))
+  .catch(() => client.logger.fatal('Could Not Log In.'));

@@ -21,7 +21,6 @@ extends:
   - plugin:node/recommended
   - plugin:yml/standard
   - plugin:json/recommended
-  - plugin:@getify/proper-arrows/getify-says
   - plugin:functional/recommended
   - plugin:functional/stylitic
   - plugin:typescript-sort-keys/recommended
@@ -50,7 +49,6 @@ parserOptions:
 plugins:
   - eslint-comments
   - functional
-  - "@getify/proper-arrows"
   - header
   - jest
   - jest-formatting
