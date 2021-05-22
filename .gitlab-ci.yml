@@ -1,57 +1,53 @@
-# SPDX-License-Identifier: MIT OR CC0-1.0
-# Bryn (Safire Project)
-
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
 image: node:current-alpine3.11
-
 stages:
-  - init
-  - lint
-  - build
-  - test
-  - deploy
-
+- init
+- lint
+- build
+- test
+- deploy
 before_script:
-  - echo "Pipeline ID = $CI_PIPELINE_ID"
-  - echo "Project name = $CI_PROJECT_NAME"
-  - echo "Build ref = $CI_BUILD_REF_NAME"
-  - pwd
-  - ls -ail
-
+- echo "Pipeline ID = $CI_PIPELINE_ID"
+- echo "Project name = $CI_PROJECT_NAME"
+- echo "Build ref = $CI_BUILD_REF_NAME"
+- pwd
+- ls -ail
 cache:
   paths:
-    - node_modules/
-
+  - node_modules/
 initialize_npm:
   stage: init
   script:
-    - npm install
-    - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
-
+  - npm install
+  - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
 eslint:
   stage: lint
   script:
-    - npm install --only-dev
-    - npx eslint . --ext .ts --format gitlab
+  - npm install --only-dev
+  - npx eslint . --ext .ts --format gitlab
   artifacts:
     reports:
       codequality: gl-codequality.json
-
 compile_typescript:
   stage: build
   script:
-    - npm install --only-dev
-    - npx tsc --version
-    - npx tsc
+  - npm install --only-dev
+  - npx tsc --version
+  - npx tsc
   artifacts:
     paths:
-      - dist
-
+    - dist
 sast:
   stage: test
+  variables:
+    SAST_EXCLUDED_ANALYZERS: semgrep
 include:
-  - template: Security/SAST.gitlab-ci.yml
-
+- template: Security/SAST.gitlab-ci.yml
 pm2_start:
   stage: deploy
   script:
-    - npx pm2 start dist/index.js
+  - npx pm2 start dist/index.js
