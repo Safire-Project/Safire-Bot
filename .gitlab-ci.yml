@@ -59,6 +59,16 @@ semgrep:
     - semgrep-agent --publish-deployment $SEMGREP_DEPLOYMENT_ID --publish-token $SEMGREP_APP_TOKEN
   needs: []
 
+jest-junit:
+  stage: test
+  script:
+    - "jest --ci --reporters=default --reporters=jest-junit"
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
+
 pm2_start:
   stage: deploy
   script:
