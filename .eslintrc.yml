@@ -71,6 +71,8 @@ plugins:
   - yml
 
 rules:
+  functional/functional-parameters:
+    - off
   functional/no-class:
     - off
   functional/no-expression-statement:

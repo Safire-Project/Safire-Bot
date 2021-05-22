@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: MIT OR CC0-1.0
+Bryn (Safire Project) */
+
 import { Event, PieceContext } from '@sapphire/framework';
 
 export default class ReadyEvent extends Event {
@@ -7,7 +10,7 @@ export default class ReadyEvent extends Event {
     });
   }
 
-  async run() {
+  async run(): undefined {
     this.context.logger.info('The bot is working.');
   }
 }
