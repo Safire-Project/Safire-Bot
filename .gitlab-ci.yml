@@ -46,6 +46,9 @@ compile_typescript:
     paths:
       - dist
 
+semgrep-sast:
+  cache: {}
+
 sast:
   stage: test
 include:
@@ -56,6 +59,7 @@ semgrep:
   image: returntocorp/semgrep-agent:v1
   script:
     - semgrep-agent --publish-deployment $SEMGREP_DEPLOYMENT_ID --publish-token $SEMGREP_APP_TOKEN
+  needs: []
 
 pm2_start:
   stage: deploy
