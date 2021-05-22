@@ -51,7 +51,13 @@ sast:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
+semgrep:
+  stage: test
+  image: returntocorp/semgrep-agent:v1
+  script:
+    - semgrep-agent --publish-deployment $SEMGREP_DEPLOYMENT_ID --publish-token $SEMGREP_APP_TOKEN
+
 pm2_start:
   stage: deploy
   script:
-    - npx pm2 start dist/index.js
+    - npx pm2 start dist/src/index.js
