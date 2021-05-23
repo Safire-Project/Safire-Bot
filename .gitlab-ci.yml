@@ -16,12 +16,6 @@ before_script:
   - echo "Pipeline ID = $CI_PIPELINE_ID"
   - echo "Project name = $CI_PROJECT_NAME"
   - echo "Build ref = $CI_BUILD_REF_NAME"
-  - pwd
-  - ls -ail
-
-after_script:
-  - pwd
-  - ls -ail
 
 cache:
   paths:
@@ -31,21 +25,21 @@ initialize_npm:
   stage: init
   script:
     - npm install
+    - npm install --only-dev
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
 
 eslint:
   stage: lint
   script:
-    - npm install --only-dev
     - npx eslint . --ext .ts --format gitlab
   artifacts:
     reports:
       codequality: gl-codequality.json
-  needs: []
+  needs: ["initialize_npm"]
 
 sast:
   stage: test
-  needs: []
+  needs: ["initialize_npm"]
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -66,23 +60,22 @@ semgrep_ci_report:
 jest-junit:
   stage: test
   script:
-    - "npx jest --ci --reporters=default --reporters=jest-junit --passWithNoTests"
+    - npx jest --ci --reporters=default --reporters=jest-junit --passWithNoTests
   artifacts:
     when: always
     reports:
       junit:
         - junit.xml
-  needs: []
+  needs: ["initialize_npm"]
 
 compile_typescript:
   stage: build
   script:
-    - npm install --only-dev
-    - npx tsc --version
     - npx tsc
   artifacts:
     paths:
       - dist
+  needs: ["initialize_npm"]
 
 pm2_start:
   stage: deploy
