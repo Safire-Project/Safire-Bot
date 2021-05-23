@@ -83,10 +83,9 @@ compile_typescript:
   artifacts:
     paths:
       - dist
-  needs: ["test"]
 
 pm2_start:
   stage: deploy
   script:
     - npx pm2 start dist/src/index.js
-  needs: ["build"]
+  needs: ["compile_typescript"]
