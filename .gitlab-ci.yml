@@ -84,6 +84,5 @@ docker-compose:
   services:
     - docker:dind
   script:
-    - systemctl start docker
     - docker-compose up
   needs: ["compile-typescript"]
