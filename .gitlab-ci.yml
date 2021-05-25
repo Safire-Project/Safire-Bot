@@ -19,7 +19,7 @@ cache:
   paths:
     - node_modules/
 
-initialize_npm:
+initialize-npm:
   stage: init
   script:
     - npm install
@@ -33,7 +33,7 @@ eslint:
   artifacts:
     reports:
       codequality: gl-codequality.json
-  needs: ["initialize_npm"]
+  needs: ["initialize-npm"]
 
 sast:
   stage: test
@@ -65,7 +65,7 @@ jest-junit:
     reports:
       junit:
         - junit.xml
-  needs: ["initialize_npm"]
+  needs: ["initialize-npm"]
 
 compile-typescript:
   stage: build
@@ -75,7 +75,7 @@ compile-typescript:
     expire_in: 1 month
     paths:
       - dist
-  needs: ["initialize_npm"]
+  needs: ["initialize-npm"]
 
 docker-compose:
   image: docker:latest
@@ -83,4 +83,4 @@ docker-compose:
   script:
     - apk add docker-compose
     - docker-compose up
-  needs: ["compile_typescript"]
+  needs: ["compile-typescript"]
