@@ -43,8 +43,8 @@ include:
   - template: Security/SAST.gitlab-ci.yml
 
 variables:
-  SAST_EXPERIMENTAL_FEATURES: "true"
-  DOCKER_HOST: tcp://localhost:2375
+  SAST_EXPERIMENTAL_FEATURES: true
+  DOCKER_HOST: tcp://localhost:2376
 
 semgrep-sast:
   cache: {}
