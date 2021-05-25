@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT OR CC0-1.0
+# Bryn (Safire Project)
+
+apps:
+  - script: dist/index.js
+    name: Safire
+    instances: 1
+    watch: false
+    autorestart: true
+    env:
+      NODE_ENV: PRODUCTION

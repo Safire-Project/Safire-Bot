@@ -3,7 +3,7 @@
 # Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
-image: node:current-alpine3.11
+image: node:current-alpine
 
 stages:
   - init
@@ -31,7 +31,7 @@ initialize_npm:
 eslint:
   stage: lint
   script:
-    - npx eslint . --ext .ts --format gitlab
+    - npx eslint . --ext .ts --format gitlab --ignore-path .gitignore
   artifacts:
     reports:
       codequality: gl-codequality.json
@@ -39,7 +39,7 @@ eslint:
 
 sast:
   stage: test
-  needs: ["initialize_npm"]
+  needs: []
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -62,6 +62,7 @@ jest-junit:
   script:
     - npx jest --ci --reporters=default --reporters=jest-junit --passWithNoTests
   artifacts:
+    expire_in: 1 month
     when: always
     reports:
       junit:
@@ -73,9 +74,14 @@ compile_typescript:
   script:
     - npx tsc
   artifacts:
+    expire_in: 1 month
     paths:
       - dist
   needs: ["initialize_npm"]
+
+image_build:
+  stage: build
+  image: docker:latest
 
 pm2_start:
   stage: deploy
