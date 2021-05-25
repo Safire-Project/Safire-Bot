@@ -44,7 +44,8 @@ include:
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
-  DOCKER_HOST: tcp://localhost:2376
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_TLS_CERTDIR: ""
 
 semgrep-sast:
   cache: {}
