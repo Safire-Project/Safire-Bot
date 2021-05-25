@@ -35,13 +35,14 @@
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-angular": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/prompt": "^12.1.4",
     "@jest/types": "^26.6.2",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.3",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
     "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.2.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
@@ -93,7 +94,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "@commitlint/prompt"
     }
   },
   "husky": {
