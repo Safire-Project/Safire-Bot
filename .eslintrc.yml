@@ -5,6 +5,8 @@ env:
   node: true
   es2021: true
   jest: true
+ignorePatterns:
+  - jest.config.ts
 extends:
   - eslint:recommended
   - plugin:eslint-comments/recommended
@@ -102,7 +104,7 @@ overrides:
     parserOptions:
       ecmaVersion: 12
       sourceType: module
-      project: [./tsconfig.json, ./test/tsconfig.json]
+      project: [./tsconfig.json, ./__tests__/tsconfig.json]
       extraFileExtensions: [.yml, .json]
     plugins:
       - '@typescript-eslint'

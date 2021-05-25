@@ -7,5 +7,6 @@ import type { Config } from '@jest/types';
 const config: Config.InitialOptions = {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  testPathIgnorePatterns: ['/types/']
 };
 export default config;

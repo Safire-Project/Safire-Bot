@@ -78,7 +78,7 @@ compile-typescript:
   needs: ["initialize-npm"]
 
 docker-compose:
-  image: docker:latest
+  image: docker:dind
   stage: deploy
   script:
     - apk add docker-compose
