@@ -44,6 +44,7 @@ include:
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
+  DOCKER_HOST: tcp://localhost:2375
 
 semgrep-sast:
   cache: {}
@@ -80,6 +81,8 @@ compile-typescript:
 docker-compose:
   image: docker/compose
   stage: deploy
+  services:
+    - docker:dind
   script:
     - systemctl start docker
     - docker-compose up
