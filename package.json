@@ -1,7 +1,7 @@
 {
   "name": "safire",
   "version": "0.0.1",
-  "description": "TypeScript discord.js bot utilizing the Sapphire framework",
+  "description": "TypeScript discord.js bot utilizing the Sapphire framework.",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
