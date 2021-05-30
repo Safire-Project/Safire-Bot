@@ -85,5 +85,6 @@ docker-compose:
   services:
     - docker:20.10.6-dind-rootless
   script:
+    - apk add docker-compose
     - docker-compose up
   needs: ["compile-typescript"]
