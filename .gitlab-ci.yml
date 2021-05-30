@@ -1,5 +1,8 @@
 image: node:16.2.0-alpine3.13
 
+services:
+  - docker:20.10.6-dind-rootless
+
 stages:
   - init
   - lint
@@ -44,7 +47,7 @@ include:
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
-  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_HOST: tcp://docker:2375
   DOCKER_TLS_CERTDIR: ""
 
 semgrep-sast:
