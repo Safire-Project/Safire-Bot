@@ -7,6 +7,10 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
+cache:
+  paths:
+    - node_modules/
+
 stages:
   - init
   - lint
@@ -22,10 +26,6 @@ before_script:
   - echo "Project name = $CI_PROJECT_NAME"
   - echo "Build ref = $CI_BUILD_REF_NAME"
 
-cache:
-  paths:
-    - node_modules/
-
 initialize-npm:
   stage: init
   script:
@@ -35,6 +35,7 @@ initialize-npm:
 eslint:
   stage: lint
   script:
+    - ls -la
     - npx eslint . --ext .ts --format gitlab --ignore-path .gitignore
   artifacts:
     reports:
@@ -81,6 +82,9 @@ compile-typescript:
   needs: ["initialize-npm"]
 
 docker-build:
+  image: docker:20.10.6
+  services:
+    - docker:20.10.6-dind-rootless
   stage: prestaging
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
