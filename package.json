@@ -2,7 +2,6 @@
   "name": "safire",
   "version": "0.0.1",
   "description": "TypeScript discord.js bot utilizing the Sapphire framework.",
-  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint --cache --report-unused-disable-directives --ext .js,.ts --ignore-path .gitignore",
