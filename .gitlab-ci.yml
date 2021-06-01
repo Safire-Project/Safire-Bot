@@ -3,6 +3,13 @@ image: node:16.2.0-alpine3.13
 services:
   - docker:20.10.6-dind-rootless
 
+variables:
+  SAST_EXPERIMENTAL_FEATURES: "true"
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+
 stages:
   - init
   - lint
@@ -45,11 +52,6 @@ sast:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-variables:
-  SAST_EXPERIMENTAL_FEATURES: "true"
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_TLS_CERTDIR: ""
-
 semgrep-sast:
   cache: {}
 
@@ -82,12 +84,24 @@ compile-typescript:
       - dist
   needs: ["initialize-npm"]
 
-docker-compose:
+docker-build:
+  stage: prestaging
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY/group/project/image:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY/group/project/image:latest
+  needs: ["initialize-npm"]
+
+docker-deploy:
   image: docker:20.10.6
-  stage: deploy
+  tags: safire
+  stage: staging
   services:
     - docker:20.10.6-dind-rootless
   script:
-    - apk add docker-compose
-    - docker-compose up
-  needs: ["compile-typescript"]
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  needs: ["docker-build"]

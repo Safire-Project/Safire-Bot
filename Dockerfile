@@ -14,4 +14,5 @@ RUN npm run build
 
 RUN rm -rf src
 
-ENTRYPOINT [ "npm", "start" ]
+ENTRYPOINT [ "npm" ]
+CMD [ "start" ]
