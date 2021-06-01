@@ -29,8 +29,8 @@ before_script:
 initialize-npm:
   stage: init
   script:
-    - npm install
-    - npm install --only-dev
+    - npm ci
+  dependencies: []
 
 eslint:
   stage: lint
@@ -40,6 +40,7 @@ eslint:
     reports:
       codequality: gl-codequality.json
   needs: ["initialize-npm"]
+  dependencies: []
 
 sast:
   stage: test
@@ -69,6 +70,7 @@ jest-junit:
       junit:
         - junit.xml
   needs: ["initialize-npm"]
+  dependencies: []
 
 compile-typescript:
   stage: build
@@ -94,6 +96,7 @@ docker-build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
   needs: ["initialize-npm"]
+  dependencies: []
 
 staging-deploy:
   image: docker:20.10.6
@@ -106,5 +109,6 @@ staging-deploy:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
-    - docker run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --env-file .env
+    - docker run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --env-file=.env
   needs: ["docker-build"]
+  dependencies: []
