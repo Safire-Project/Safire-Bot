@@ -62,7 +62,7 @@ semgrep-ci-report:
 jest-junit:
   stage: test
   script:
-    -
+    - NODE_ENV=development npm install
     - npx jest --ci --reporters=default --reporters=jest-junit --passWithNoTests
   artifacts:
     expire_in: 1 month
@@ -76,6 +76,7 @@ jest-junit:
 compile-typescript:
   stage: build
   script:
+    - NODE_ENV=development npm install
     - npx tsc
   artifacts:
     expire_in: 1 month
