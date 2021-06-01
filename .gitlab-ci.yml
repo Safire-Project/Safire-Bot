@@ -34,7 +34,6 @@ initialize-npm:
   script:
     - npm install
     - npm install --only-dev
-    - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
 
 eslint:
   stage: lint
@@ -96,12 +95,15 @@ docker-build:
 
 docker-deploy:
   image: docker:20.10.6
-  tags: safire
+  tags:
+    - safire
   stage: staging
   services:
     - docker:20.10.6-dind-rootless
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
+    - docker cp .env $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA:.
     - docker run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   needs: ["docker-build"]
