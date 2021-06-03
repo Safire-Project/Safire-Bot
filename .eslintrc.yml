@@ -23,6 +23,7 @@ extends:
   - plugin:typescript-sort-keys/recommended
   - plugin:eslint-comments/recommended
   - plugin:ternary/recommended
+  - plugin:sonarjs/recommended
   # Prettier should be last extends
   - prettier
   - plugin:prettier/recommended
@@ -41,6 +42,7 @@ plugins:
   - promise
   - prefer-arrow
   - regexp
+  - sonarjs
   - ternary
   - typescript-sort-keys
   - unicorn

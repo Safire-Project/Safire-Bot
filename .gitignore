@@ -126,3 +126,5 @@ prisma/migrations/
 
 *.code-workspace
 contributing/.tmp-projections
+
+.husky
