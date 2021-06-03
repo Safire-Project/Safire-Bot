@@ -35,6 +35,7 @@ initialize-npm:
 eslint:
   stage: lint
   script:
+    - NODE_ENV=development npm install
     - npx eslint . --ext .ts --format gitlab --ignore-path .gitignore
   artifacts:
     reports:
