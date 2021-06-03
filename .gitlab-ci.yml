@@ -102,6 +102,15 @@ docker-build:
   needs: ["initialize-npm"]
   dependencies: []
 
+upload-package:
+  stage: release
+  script:
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - npm publish
+  needs: ["compile-typescript"]
+  only:
+    - tags
+
 staging-deploy:
   image: docker:20.10.6
   tags:
