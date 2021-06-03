@@ -30,7 +30,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://gitlab.com/safire/-project/discord-bot/safire">
+  <a href="https://gitlab.com/safire-project/discord-bot/safire">
     <img src="src/assets/img/icon-4.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -42,7 +42,7 @@
     <a href="https://gitlab.com/safire-project/discord-bot/safire/-/tree/master/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://gitlab.com/safire/-project/discord-bot/safire">View Demo</a>
+    <a href="https://gitlab.com/safire-project/discord-bot/safire">View Demo</a>
     ·
     <a href="https://gitlab.com/safire-project/discord-bot/safire/-/issues">Report Bug</a>
     ·
@@ -79,7 +79,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://gitlab.com/safire/-project/discord-bot/safire)
+[![Product Name Screen Shot][product-screenshot]](https://gitlab.com/safire-project/discord-bot/safire)
 
 Safire is written with modern frameworks and highly opinionated style choices.
 
@@ -164,7 +164,7 @@ _For further examples and explanations, please refer to the [Documentation](http
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://gitlab.com/safire/-project/discord-bot/safire/-/issues) for a list of proposed features (and known issues).
+See the [open issues](https://gitlab.com/safire-project/discord-bot/safire/-/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -193,7 +193,7 @@ The project is also distributed under the CC0 License. See the [license.md](lice
 
 Bryn/Sofia - [@PhiloSofiaAlt](https://twitter.com/PhiloSofiaAlt)
 
-Project Link: [Gitlab](https://gitlab.com/safire/-project/discord-bot/safire)
+Project Link: [Gitlab](https://gitlab.com/safire-project/discord-bot/safire) - [Github](https://github.com/Safire-Project/Safire-Bot)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
@@ -222,13 +222,13 @@ Project Link: [Gitlab](https://gitlab.com/safire/-project/discord-bot/safire)
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/badge/Contributors-gitlab-success.svg
-[contributors-url]: https://gitlab.com/safire/-project/discord-bot/safire/-/graphs/master
+[contributors-url]: https://gitlab.com/safire-project/discord-bot/safire/-/graphs/master
 [forks-shield]: https://img.shields.io/badge/Forks-gitlab-informational.svg
-[forks-url]: https://gitlab.com/safire/-project/discord-bot/safire/-/forks
+[forks-url]: https://gitlab.com/safire-project/discord-bot/safire/-/forks
 [stars-shield]: https://img.shields.io/badge/Stars-gitlab-yellow.svg
-[stars-url]: https://gitlab.com/safire/-project/discord-bot/safire/-/starrers
+[stars-url]: https://gitlab.com/safire-project/discord-bot/safire/-/starrers
 [issues-shield]: https://img.shields.io/badge/Issues-gitlab-critical.svg
-[issues-url]: https://gitlab.com/safire/-project/discord-bot/safire/-/issues
+[issues-url]: https://gitlab.com/safire-project/discord-bot/safire/-/issues
 [license-shield]: https://img.shields.io/badge/License-MIT-red
 [license-url]: https://gitlab.com/safire-project/discord-bot/safire/-/blob/master/license.md
 [product-screenshot]: src/assets/img/code.png
