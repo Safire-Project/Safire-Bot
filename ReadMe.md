@@ -240,3 +240,7 @@ Safire utilized the following assets for developing its icon:
 * [Fire by Freepik](https://www.flaticon.com/free-icon/fire_785116)
 
 * [Brain by Freepik](https://www.flaticon.com/free-icon/brain_2257689)
+
+###
+
+We are not associated with the Sapphire Project.
