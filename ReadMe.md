@@ -28,53 +28,39 @@
 [![MIT License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://gitlab.com/safire-project/discord-bot/safire">
-    <img src="assets/img/icon.png" alt="Logo" width="80" height="80">
-  </a>
+ [![Logo](assets/icon/256x256.png)](https://gitlab.com/safire-project/discord-bot/safire)
 
-  <h3 align="center">Safire</h3>
+## Safire
 
-  <p align="center">
-    Safire is a feature-rich Discord Bot written in TypeScript
-    <br />
-    <a href="https://gitlab.com/safire-project/discord-bot/safire/-/tree/master/docs"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://gitlab.com/safire-project/discord-bot/safire">View Demo</a>
-    ·
-    <a href="https://gitlab.com/safire-project/discord-bot/safire/-/issues">Report Bug</a>
-    ·
-    <a href="https://gitlab.com/safire-project/discord-bot/safire/-/issues">Request Feature</a>
-  </p>
-</p>
+Safire is a feature-rich Discord Bot written in TypeScript
+[**Explore the docs »**](https://gitlab.com/safire-project/discord-bot/safire/-/tree/master/docs)
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
+[View Demo](https://gitlab.com/safire-project/discord-bot/safire) · [Report Bug](https://gitlab.com/safire-project/discord-bot/safire/-/issues) · [Request Feature](https://gitlab.com/safire-project/discord-bot/safire/-/issues)
+
+## Table of Contents
+
+- [Safire Bot](#safire-bot)
+  - [Safire](#safire)
+  - [Table of Contents](#table-of-contents)
+  - [About The Project](#about-the-project)
+    - [Built With](#built-with)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+    - [Docker Compose](#docker-compose)
+    - [Docker](#docker)
+    - [PM2](#pm2)
+    - [Node](#node)
+  - [Roadmap](#roadmap)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
+  - [Acknowledgements](#acknowledgements)
+    - [Dependencies](#dependencies)
+    - [Development Dependencies](#development-dependencies)
+    - [Asset Attribution](#asset-attribution)
+    - [Disclaimer](#disclaimer)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -87,15 +73,17 @@ It is a rewrite of [Ember](https://gitlab.com/BrynAlt/ember-bot) in the Sapphire
 
 ### Built With
 
-* [___TypeScript___](https://www.typescriptlang.org/)
-* [node.js](https://nodejs.org/en/)
-* [discord.js](https://discord.js.org/#/)
-* [Sapphire](https://github.com/sapphiredev/framework)
-* [___GraphQL___](https://graphql.org/)
-* [Prisma](https://www.prisma.io/)
-* [GraphQL Nexus](https://nexusjs.org/)
-* [___Jest___](https://jestjs.io/)
-* [___ESLint___](https://eslint.org/)
+- [___TypeScript___](https://www.typescriptlang.org/)
+- [node.js](https://nodejs.org/en/)
+- [discord.js](https://discord.js.org/#/)
+- [Sapphire](https://github.com/sapphiredev/framework)
+- [___GraphQL___](https://graphql.org/)
+- [Prisma](https://www.prisma.io/)
+- [GraphQL Nexus](https://nexusjs.org/)
+- [___Jest___](https://jestjs.io/)
+- [ts-jest](https://github.com/kulshekhar/ts-jest)
+- [___ESLint___](https://eslint.org/)
+- [AirBNB Style Guide](https://github.com/airbnb/javascript)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -104,13 +92,11 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* npm
+- npm
 
   ```sh
   npm install npm@latest -g
   ```
-
-* PostgreSQL
 
 ### Installation
 
@@ -200,24 +186,24 @@ Project Link: [Gitlab](https://gitlab.com/safire-project/discord-bot/safire) - [
 
 ### Dependencies
 
-* [Apollo Server](https://github.com/apollographql/apollo-server)
-* [dotenv](https://github.com/motdotla/dotenv)
-* [fuzzy-search](https://github.com/wouter2203/fuzzy-search)
-* [winston](https://github.com/winstonjs/winston)
-* [winston-daily-rotate-file](https://github.com/winstonjs/winston-daily-rotate-file)
+- [Apollo Server](https://github.com/apollographql/apollo-server)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [fuzzy-search](https://github.com/wouter2203/fuzzy-search)
+- [winston](https://github.com/winstonjs/winston)
+- [winston-daily-rotate-file](https://github.com/winstonjs/winston-daily-rotate-file)
 
 ### Development Dependencies
 
-* [Airbnb Style Guide](https://github.com/airbnb/javascript)
-* [Functional TypeScript Style Guide](https://github.com/jonaskello/eslint-plugin-functional#readme)
-* [Promise Style Guide](https://github.com/xjamundx/eslint-plugin-promise#readme)
-* [Prettier](https://prettier.io/)
-* [Rimraf](https://github.com/isaacs/rimraf)
-* [TSDoc](https://tsdoc.org/)
-* [TS Node](https://github.com/TypeStrong/ts-node)
-* [TS Node Dev](https://github.com/whitecolor/ts-node-dev)
-* [TypeDoc](https://typedoc.org/)
-* [Unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
+- [Airbnb Style Guide](https://github.com/airbnb/javascript)
+- [Functional TypeScript Style Guide](https://github.com/jonaskello/eslint-plugin-functional#readme)
+- [Promise Style Guide](https://github.com/xjamundx/eslint-plugin-promise#readme)
+- [Prettier](https://prettier.io/)
+- [Rimraf](https://github.com/isaacs/rimraf)
+- [TSDoc](https://tsdoc.org/)
+- [TS Node](https://github.com/TypeStrong/ts-node)
+- [TS Node Dev](https://github.com/whitecolor/ts-node-dev)
+- [TypeDoc](https://typedoc.org/)
+- [Unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -237,9 +223,8 @@ Project Link: [Gitlab](https://gitlab.com/safire-project/discord-bot/safire) - [
 
 Safire utilized the following assets for developing its icon:
 
-* [Fire by Freepik](https://www.flaticon.com/free-icon/fire_785116)
-
-* [Brain by Freepik](https://www.flaticon.com/free-icon/brain_2257689)
+- [Fire by Kiranshastry](https://www.flaticon.com/free-icon/fire_876691)
+- [Hashtag by Freepik](https://www.flaticon.com/free-icon/hashtag_1076982)
 
 ### Disclaimer
 
