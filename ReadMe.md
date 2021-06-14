@@ -31,7 +31,7 @@
 <br />
 <p align="center">
   <a href="https://gitlab.com/safire-project/discord-bot/safire">
-    <img src="src/assets/img/icon-4.png" alt="Logo" width="80" height="80">
+    <img src="assets/img/icon.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Safire</h3>
@@ -241,6 +241,6 @@ Safire utilized the following assets for developing its icon:
 
 * [Brain by Freepik](https://www.flaticon.com/free-icon/brain_2257689)
 
-###
+### Disclaimer
 
 We are not associated with the Sapphire Project.
