@@ -65,7 +65,7 @@ Safire is a feature-rich Discord Bot written in TypeScript
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://gitlab.com/safire-project/discord-bot/safire)
+[![Product Name Screen Shot](assets/img/code.png)](https://gitlab.com/safire-project/discord-bot/safire)
 
 Safire is written with modern frameworks and highly opinionated style choices.
 
