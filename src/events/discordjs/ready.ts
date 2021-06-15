@@ -12,7 +12,7 @@ export default class ReadyEvent extends Event {
 
   async run(): Promise<void> {
     this.context.logger.info('The bot is working.');
-    return process.env['DISCORD_TOKEN'] === 'ci'
+    return process.env['NODE_ENV'] === 'ci'
       ? process.exit(0) // eslint-disable-line unicorn/no-process-exit
       : Promise.resolve();
   }
