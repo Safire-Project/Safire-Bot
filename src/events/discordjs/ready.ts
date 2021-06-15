@@ -11,9 +11,11 @@ export default class ReadyEvent extends Event {
   }
 
   async run(): Promise<void> {
+    // eslint-disable-next-line functional/no-conditional-statement
+    if (process.env['NODE_ENV'] === 'ci') {
+      this.context.client.shard?.send('processKill');
+    }
     this.context.logger.info('The bot is working.');
-    return process.env['NODE_ENV'] === 'ci'
-      ? process.exit(0) // eslint-disable-line unicorn/no-process-exit
-      : Promise.resolve();
+    return Promise.resolve();
   }
 }
