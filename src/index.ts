@@ -1,20 +1,13 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { SapphireClient } from '@sapphire/framework';
+import { ShardingManager } from 'discord.js';
 
-const client = new SapphireClient({
-  defaultPrefix: '?',
+const manager = new ShardingManager('./dist/bot.js', {
+  token: process.env['DISCORD_TOKEN'] ?? '',
 });
 
-client
-  .login(process.env['DISCORD_TOKEN'] ?? '')
-  .then(() => client.logger.info('Logged In.'))
-  .then(() => {
-    // eslint-disable-next-line unicorn/no-process-exit, functional/no-conditional-statement
-    if (process.env['NODE_ENV'] === 'ci') return process.exit(0);
-    return client.logger.info(
-      `running in ${process.env['NODE_ENV'] ?? 'unknown'}`,
-    );
-  })
-  .catch(() => client.logger.fatal('Could Not Log In.'));
+// eslint-disable-next-line no-console
+manager.on('shardCreate', (shard) => console.log(`Launched shard ${shard.id}`));
+const shardManagercollection = await manager.spawn();
+export default shardManagercollection;
