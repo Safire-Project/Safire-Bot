@@ -22,8 +22,6 @@
 -->
 [![pipeline status](https://gitlab.com/safire-project/discord-bot/safire/badges/master/pipeline.svg)](https://gitlab.com/safire-project/discord-bot/safire/-/commits/master)
 [![coverage report](https://gitlab.com/safire-project/discord-bot/safire/badges/master/coverage.svg)](https://gitlab.com/safire-project/discord-bot/safire/-/commits/master)
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
