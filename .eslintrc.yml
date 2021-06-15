@@ -113,9 +113,10 @@ overrides:
       - '@typescript-eslint'
       - total-functions
     rules:
-      function-paren-newline: 0
+      function-paren-newline:
+        - off
       implicit-arrow-linebreak:
-        - below
+        - off
       header/header:
         - 2
         - block
