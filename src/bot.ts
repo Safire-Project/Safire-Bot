@@ -1,9 +1,6 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-/* SPDX-License-Identifier: MIT OR CC0-1.0
-Bryn (Safire Project) */
-
 import { SapphireClient } from '@sapphire/framework';
 
 const client = new SapphireClient({
