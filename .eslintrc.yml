@@ -48,6 +48,7 @@ plugins:
   - unicorn
   - write-good-comments
 rules:
+  function-paren-newline: 0
   functional/functional-parameters:
     - off
   functional/no-class:
@@ -112,6 +113,9 @@ overrides:
       - '@typescript-eslint'
       - total-functions
     rules:
+      function-paren-newline: 0
+      implicit-arrow-linebreak:
+        - below
       header/header:
         - 2
         - block

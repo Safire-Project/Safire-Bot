@@ -33,11 +33,12 @@
 ## Safire
 
 Safire is a feature-rich Discord Bot written in TypeScript
+
 [**Explore the docs »**](https://gitlab.com/safire-project/discord-bot/safire/-/tree/master/docs)
 
 [![Support Server](https://discord.com/api/guilds/850124019763380254/embed.png?style=banner2)](https://discord.gg/CXbmPSvukZ)
 
-[View Demo](https://gitlab.com/safire-project/discord-bot/safire) · [Report Bug](https://gitlab.com/safire-project/discord-bot/safire/-/issues) · [Request Feature](https://gitlab.com/safire-project/discord-bot/safire/-/issues)
+[View Demo](https://discord.gg/CXbmPSvukZ) · [Report Bug or Request Feature](https://gitlab.com/safire-project/discord-bot/safire/-/issues) · [Visit Jira](https://safireproject.atlassian.net/)
 
 ## Table of Contents
 
