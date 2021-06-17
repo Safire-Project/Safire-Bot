@@ -5,6 +5,7 @@ import { SapphireClient } from '@sapphire/framework';
 
 const client = new SapphireClient({
   defaultPrefix: '?',
+  intents: 32_767,
 });
 
 client

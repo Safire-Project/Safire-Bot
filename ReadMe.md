@@ -95,10 +95,6 @@ To get a local copy up and running follow these simple steps.
 
 - npm
 
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
 
 1. Clone the repo
@@ -110,15 +106,15 @@ To get a local copy up and running follow these simple steps.
 2. Install NPM packages
 
    ```sh
-   npm install
+   NODE_ENV=development npm install
    ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-The following can be used to run Safire, in order of preference.
+The following can be used to run Safire, in order of ease of use and reliability. Using Docker will provide reproducible builds due to determinate configuration.
 
-Before doing any of them populate a `.env` with a single line `DISCORD_TOKEN=xxxx...`
+Before doing any of them populate a `.env` with at least `DISCORD_TOKEN=xxxx...`. All configuration options can be shown in [the example .env](https://gitlab.com/safire-project/discord-bot/safire/-/blob/master/.env.example)
 
 ### Docker Compose
 
