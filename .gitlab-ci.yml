@@ -116,8 +116,8 @@ upload-package:
 
 staging-deploy:
   image: docker:20.10.6
-  tags:
-    - safire
+  #  tags:
+  #    - safire
   stage: staging
   services:
     - docker:20.10.6-dind
