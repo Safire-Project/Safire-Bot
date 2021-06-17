@@ -14,9 +14,9 @@ export default class ReadyEvent extends Event<Events.Ready> {
   async run(): Promise<void> {
     // eslint-disable-next-line functional/no-conditional-statement
     if (process.env['NODE_ENV'] === 'ci') {
-      this.container.client.shard?.send('processKill');
+      this.context.client.shard?.send('processKill');
     }
-    this.container.logger.info('The bot is working.');
+    this.context.logger.info('The bot is working.');
     return Promise.resolve();
   }
 }
