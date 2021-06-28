@@ -2,6 +2,7 @@
 Bryn (Safire Project) */
 
 import { Event, Events, PieceContext } from '@sapphire/framework';
+import { EVENTS, TOPICS } from '../../lib/logger';
 
 export default class ReadyEvent extends Event<Events.Ready> {
   constructor(context: PieceContext) {
@@ -16,7 +17,11 @@ export default class ReadyEvent extends Event<Events.Ready> {
     if (process.env['NODE_ENV'] === 'ci') {
       this.container.client.shard?.send('processKill');
     }
-    this.container.logger.info('The bot is working.');
+    this.container.logger.debug(
+      'Ready event emitted',
+      TOPICS.DISCORD,
+      EVENTS.READY,
+    );
     return Promise.resolve();
   }
 }
