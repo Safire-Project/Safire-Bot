@@ -3,11 +3,10 @@
   "version": "0.0.1",
   "description": "TypeScript discord.js bot utilizing the Sapphire framework.",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "lint": "eslint --cache --report-unused-disable-directives --ext .js,.ts --ignore-path .gitignore",
     "test": "jest",
-    "build": "tsc",
+    "build": "tsc --version && tsc",
     "commitz": "cz",
     "doc": "typedoc src/index.ts --out docs/typedoc/",
     "pm2": "pm2 start ecosystem.config.yml",
@@ -81,9 +80,14 @@
   },
   "dependencies": {
     "@discordjs/voice": "^0.5.0",
-    "@sapphire/framework": "^2.0.0-next.92a010ed.0",
-    "discord.js": "^13.0.0-dev.a3cbcca13da1af416c219bd64a0a6e84bb87a057",
-    "dotenv": "^10.0.0"
+    "@sapphire/decorators": "^2.1.4",
+    "@sapphire/framework": "^2.0.0-next.6bb30794.0",
+    "discord-api-types": "^0.19.0-next.13d483ef2e53373438e8b03fed681232626b2670",
+    "discord.js": "github:discordjs/discord.js",
+    "dotenv": "^10.0.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5",
+    "winston-transport": "^4.4.0"
   },
   "engines": {
     "node": ">=14.16.0"

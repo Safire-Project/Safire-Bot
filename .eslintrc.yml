@@ -5,73 +5,15 @@ env:
   node: true
   es2021: true
   jest: true
-ignorePatterns:
-  - jest.config.ts
-extends:
-  - eslint:recommended
-  - plugin:eslint-comments/recommended
-  - plugin:import/errors
-  - plugin:import/warnings
-  - plugin:jest/recommended
-  - plugin:jest-formatting/recommended
-  - plugin:promise/recommended
-  - plugin:unicorn/recommended
-  - plugin:node/recommended
-  - plugin:json/recommended
-  - plugin:functional/recommended
-  - plugin:functional/stylitic
-  - plugin:typescript-sort-keys/recommended
-  - plugin:eslint-comments/recommended
-  - plugin:ternary/recommended
-  - plugin:sonarjs/recommended
-  # Prettier should be last extends
-  - prettier
-  - plugin:prettier/recommended
-  - plugin:regexp/recommended
-plugins:
-  - eslint-comments
-  - functional
-  - header
-  - jest
-  - jest-formatting
-  - json
-  - new-with-error
-  - node
-  - no-constructor-bind
-  - no-secrets
-  - promise
-  - prefer-arrow
-  - regexp
-  - sonarjs
-  - ternary
-  - typescript-sort-keys
-  - unicorn
-  - write-good-comments
-rules:
-  function-paren-newline: 0
-  functional/functional-parameters:
-    - off
-  functional/no-class:
-    - off
-  functional/no-expression-statement:
-    - error
-    - ignorePattern: [super, client.login, this, logger, console]
-  functional/no-this-expression:
-    - off
-  new-with-error/new-with-error:
-    - error
-  node/no-unsupported-features/es-syntax:
-    - error
-    - ignores: [modules]
-  no-constructor-bind/no-constructor-bind:
-    - error
-  no-constructor-bind/no-constructor-state:
-    - error
-  no-secrets/no-secrets:
-    - error
-  write-good-comments/write-good-comments:
-    - warn
-
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module
+  project:
+    - ./tsconfig.json
+    - ./__tests__/tsconfig.json
+  extraFileExtensions:
+    - .yml
+    - .json
 settings:
   node:
     tryExtensions:
@@ -80,9 +22,15 @@ settings:
       - .node
       - .ts
       - .d.ts
+extends:
+  - plugin:json/recommended
+plugins:
+  - json
+
 
 overrides:
-  - files: ['**/*.yml']
+  - files:
+    - '**/*.yml'
     extends:
       - plugin:yml/standard
       - plugin:yml/prettier
@@ -92,33 +40,97 @@ overrides:
       yml/quotes:
         - error
         - prefer: single
-  - files: ['**/*.ts']
+  - files:
+    - '**/*.ts'
     extends:
       - plugin:@typescript-eslint/eslint-recommended
       - plugin:@typescript-eslint/recommended
       - plugin:@typescript-eslint/recommended-requiring-type-checking
       - plugin:import/typescript
       - plugin:total-functions/recommended
+      - eslint:recommended
+      - plugin:eslint-comments/recommended
+      - plugin:import/errors
+      - plugin:import/warnings
+      - plugin:jest/recommended
+      - plugin:jest-formatting/recommended
+      - plugin:promise/recommended
+      - plugin:unicorn/recommended
+      - plugin:node/recommended
+      - plugin:functional/recommended
+      - plugin:functional/stylitic
+      - plugin:typescript-sort-keys/recommended
+      - plugin:eslint-comments/recommended
+      - plugin:sonarjs/recommended
       # Airbnb opinions should be near bottom
       - airbnb-typescript/base
       # Replacement rules for Functional Programming
       - plugin:functional/external-recommended
+      # Prettier should be last extends
+      - prettier
+      - plugin:prettier/recommended
+      - plugin:regexp/recommended
     parser: '@typescript-eslint/parser'
     parserOptions:
       ecmaVersion: 12
       sourceType: module
-      project: [./tsconfig.json, ./__tests__/tsconfig.json]
-      extraFileExtensions: [.yml, .json]
+      project:
+        - ./tsconfig.json
+        - ./__tests__/tsconfig.json
     plugins:
       - '@typescript-eslint'
       - total-functions
+      - eslint-comments
+      - functional
+      - header
+      - jest
+      - jest-formatting
+      - new-with-error
+      - node
+      - no-constructor-bind
+      - no-secrets
+      - promise
+      - prefer-arrow
+      - regexp
+      - sonarjs
+      - typescript-sort-keys
+      - unicorn
+      - write-good-comments
     rules:
-      function-paren-newline:
+      no-nested-ternary:
         - off
-      implicit-arrow-linebreak:
+      functional/functional-parameters:
         - off
+      functional/no-class:
+        - off
+      functional/no-expression-statement:
+        - error
+        - ignorePattern:
+          - super
+          - client.login
+          - this
+          - logger
+          - console
+      functional/no-this-expression:
+        - off
+      new-with-error/new-with-error:
+        - error
+      node/no-unsupported-features/es-syntax:
+        - error
+        - ignores:
+          - modules
+      no-constructor-bind/no-constructor-bind:
+        - error
+      no-constructor-bind/no-constructor-state:
+        - error
+      no-secrets/no-secrets:
+        - error
+      write-good-comments/write-good-comments:
+        - warn
       header/header:
         - 2
         - block
-        - [' SPDX-License-Identifier: MIT OR CC0-1.0', 'Bryn (Safire Project) ']
+        -
+          - ' SPDX-License-Identifier: MIT OR CC0-1.0'
+          - 'Bryn (Safire Project) '
         - 2
