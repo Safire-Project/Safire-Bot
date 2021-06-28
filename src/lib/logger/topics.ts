@@ -1,0 +1,15 @@
+/* SPDX-License-Identifier: MIT OR CC0-1.0
+Bryn (Safire Project) */
+
+export enum TOPICS {
+  APOLLO_CLIENT = 'APOLLO_CLIENT',
+  APOLLO_SERVER = 'APOLLO_SERVER',
+  DISCORD = 'DISCORD',
+  METRICS = 'METRICS',
+  NEXUS = 'NEXUS',
+  RPC = 'RPC',
+  SAPPHIRE = 'SAPPHIRE',
+  UNHANDLED_REJECTION = 'UNHANDLED_REJECTION',
+}
+
+export default TOPICS;
