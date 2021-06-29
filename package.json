@@ -82,7 +82,7 @@
     "@sapphire/decorators": "^2.1.4",
     "@sapphire/framework": "^2.0.0-next.6bb30794.0",
     "discord-api-types": "^0.19.0-next.f393ba520d7d6d2aacaca7b3ca5d355fab614f6e",
-    "discord.js": "github:discordjs/discord.js",
+    "discord.js": "^13.0.0-dev.acdcb906ae4691374f5d2bda1315a484c8674938",
     "dotenv": "^10.0.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
