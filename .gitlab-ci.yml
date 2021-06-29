@@ -51,12 +51,16 @@ eslint:
 sast:
   stage: test
   needs: []
-
-include:
-  - template: Security/SAST.gitlab-ci.yml
+  script:
+    - ls
 
 semgrep-sast:
   cache: {}
+  script:
+    - ls
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
 
 semgrep-ci-report:
   stage: test
