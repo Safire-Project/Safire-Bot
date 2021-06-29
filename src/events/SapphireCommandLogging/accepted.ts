@@ -9,7 +9,7 @@ import {
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandAcceptedFeedbackEvent extends Event {
+export default class CommandAcceptedLogEvent extends Event {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandAccepted,
@@ -22,15 +22,10 @@ export default class CommandAcceptedFeedbackEvent extends Event {
     message,
     command,
   }: CommandAcceptedPayload): Promise<void> {
-    return message.reactions
-      .removeAll()
-      .then(() => message.react('➕'))
-      .then(() =>
-        this.container.logger.debug(
-          `Command: [${command.name}] - Message: [${message.content}]`,
-          TOPICS.SAPPHIRE,
-          EVENTS.COMMAND_ACCEPTED,
-        ),
-      );
+    return this.container.logger.debug(
+      `Command: [${command.name}] - Message: [${message.content}]`,
+      TOPICS.SAPPHIRE,
+      EVENTS.COMMAND_ACCEPTED,
+    );
   }
 }

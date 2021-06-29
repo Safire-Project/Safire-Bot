@@ -11,6 +11,8 @@ const client = new SapphireClient({
   logger: {
     instance: new SafireLogger(),
   },
+  partials: ['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'],
+  presence: { afk: false, status: 'online', activities: [{ name: '?help' }] },
 });
 
 client

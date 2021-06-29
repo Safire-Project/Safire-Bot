@@ -7,8 +7,8 @@ import {
   Events,
   PieceContext,
 } from '@sapphire/framework';
+import { Message, PartialMessage } from 'discord.js';
 
-import { TOPICS, EVENTS } from '../../lib/logger/index';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class CommandSuccessFeedbackEvent extends Event {
@@ -19,15 +19,12 @@ export default class CommandSuccessFeedbackEvent extends Event {
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
+  // eslint-disable-next-line class-methods-use-this
   public async run({
-    args,
     command,
-    context,
     message,
-    parameters,
     result,
-  }: CommandSuccessPayload): Promise<void> {
+  }: CommandSuccessPayload): Promise<Message | PartialMessage> {
     return message.reactions
       .removeAll()
       .then((clearedMessage) => clearedMessage.react('✅'))
@@ -43,25 +40,6 @@ export default class CommandSuccessFeedbackEvent extends Event {
                   : result.message,
               )
           : messageReaction.message.reply(result),
-      )
-      .then(async () =>
-        this.container.logger.info(
-          `Command: [${command.name}] - Message: [${
-            message.content
-          }] - String Args: [${
-            (await args.repeatResult('string')).value?.toString() ?? ''
-          }] - Command Prefix: [${
-            context.commandPrefix
-          }] - Parameters: [${parameters.toString()}] - Result: [${
-            typeof result !== 'string'
-              ? !(result instanceof SafireResult)
-                ? ''
-                : result.message
-              : result
-          }]`,
-          TOPICS.SAPPHIRE,
-          EVENTS.COMMAND_SUCCESS,
-        ),
       );
   }
 }

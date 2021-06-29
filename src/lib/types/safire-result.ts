@@ -2,7 +2,6 @@
 Bryn (Safire Project) */
 
 import { MessageEmbed } from 'discord.js';
-import SafireResultOptions from './safire-result-options';
 
 export default class SafireResult {
   public readonly message: string;
@@ -20,6 +19,11 @@ export default class SafireResult {
       resultMessage ?? outputEmbed?.description ?? 'no result message given';
     this.embed =
       outputEmbed ?? new MessageEmbed({ description: resultMessage });
-    this.options = resultOptions ?? new SafireResultOptions();
+    this.options = resultOptions ?? { printResult: false, sendEmbed: false };
   }
 }
+
+export type SafireResultOptions = {
+  readonly printResult?: boolean;
+  readonly sendEmbed?: boolean;
+};

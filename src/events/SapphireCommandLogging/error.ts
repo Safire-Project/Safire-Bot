@@ -20,20 +20,10 @@ export default class CommandErrorFeedbackEvent extends Event {
   // eslint-disable-next-line functional/no-return-void
   public async run(error: Error, payload: CommandErrorPayload): Promise<void> {
     // eslint-disable-next-line promise/no-promise-in-callback
-    return payload.message.reactions
-      .removeAll()
-      .then((clearedMessage) => clearedMessage.react('⁉️'))
-      .then((messageReaction) =>
-        messageReaction.message.reply(
-          `Command Failed: ${error.name} - ${error.message}`,
-        ),
-      )
-      .then(() =>
-        this.container.logger.warn(
-          `Command: [${payload.command.name}] - Message: [${payload.message.content}] - Error Name: [${error.name}] -  Error Message: [${error.message}]`,
-          TOPICS.SAPPHIRE,
-          EVENTS.COMMAND_ERROR,
-        ),
-      );
+    return this.container.logger.warn(
+      `Command: [${payload.command.name}] - Message: [${payload.message.content}] - Error Name: [${error.name}] -  Error Message: [${error.message}]`,
+      TOPICS.SAPPHIRE,
+      EVENTS.COMMAND_ERROR,
+    );
   }
 }

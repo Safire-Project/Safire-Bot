@@ -76,7 +76,4 @@
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     "experimentalDecorators": true,
   },
-  "exclude": [
-    "**/*config.ts",
-  ]
 }

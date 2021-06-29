@@ -15,7 +15,7 @@ function kill(): never {
 
 manager.on('shardCreate', (shard) => {
   logger.debug(`Launched shard ${shard.id}`, {
-    topic: TOPICS.DISCORD,
+    topic: TOPICS.DISCORD_SHARD,
     event: EVENTS.INIT,
   });
   // eslint-disable-next-line functional/no-expression-statement
