@@ -19,6 +19,7 @@ export default class CommandErrorFeedbackEvent extends Event {
 
   // eslint-disable-next-line functional/no-return-void
   public async run(error: Error, payload: CommandErrorPayload): Promise<void> {
+    // eslint-disable-next-line promise/no-promise-in-callback
     return payload.message.reactions
       .removeAll()
       .then((clearedMessage) => clearedMessage.react('⁉️'))

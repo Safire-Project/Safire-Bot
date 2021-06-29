@@ -53,8 +53,8 @@ export default class CommandSuccessFeedbackEvent extends Event {
           }] - Command Prefix: [${
             context.commandPrefix
           }] - Parameters: [${parameters.toString()}] - Result: [${
-            typeof result !== 'string' // eslint-disable-line ternary/no-unreachable
-              ? !(result instanceof SafireResult) // eslint-disable-line ternary/no-unreachable
+            typeof result !== 'string'
+              ? !(result instanceof SafireResult)
                 ? ''
                 : result.message
               : result

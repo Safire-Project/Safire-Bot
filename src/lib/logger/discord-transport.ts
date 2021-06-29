@@ -2,10 +2,10 @@
 Bryn (Safire Project) */
 
 import { WebhookClient, MessageEmbed } from 'discord.js';
+import { APIMessage } from 'discord-api-types/v8';
 import os from 'os'; // eslint-disable-line unicorn/prefer-node-protocol
 import Transport, { TransportStreamOptions } from 'winston-transport';
 // eslint-disable-next-line node/no-unpublished-import
-import { APIMessage } from '../../../node_modules/discord.js/node_modules/discord-api-types/v8';
 
 import { COLORS } from '../types/colors';
 
