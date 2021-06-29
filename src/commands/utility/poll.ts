@@ -106,10 +106,11 @@ export default class PollCommand extends SafireCommand {
       return !cachedPollData
         ? Promise.reject(new Error('could not hit poll cache for question'))
         : message
-            .createMessageComponentInteractionCollector(
-              async (interaction) => cachedPollData.has(interaction.customID),
-              { idle: this.timeout },
-            )
+            .createMessageComponentInteractionCollector({
+              filter: async (interaction: MessageComponentInteraction) =>
+                cachedPollData.has(interaction.customID),
+              idle: this.timeout,
+            })
             .on('collect', (interaction) => {
               const voters =
                 cachedPollData.get(interaction.customID)?.voters ?? [];

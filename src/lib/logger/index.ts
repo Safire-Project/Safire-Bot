@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { Snowflake } from 'discord.js';
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
@@ -63,7 +62,7 @@ export const logger = createLogger({
       ? new NullTransport({})
       : new DiscordTransport({
           // eslint-disable-next-line total-functions/no-unsafe-type-assertion
-          webhookID: `${BigInt(process.env['webhookID'] ?? '')}` as Snowflake,
+          webhookID: `${BigInt(process.env['webhookID'] ?? '')}`,
           webhookToken: process.env['webhookToken'] ?? '',
           level: 'info',
         }),
