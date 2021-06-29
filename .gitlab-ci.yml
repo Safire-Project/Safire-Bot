@@ -126,6 +126,10 @@ staging-deploy:
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
     - echo NODE_ENV=ci >> .env
+    - echo commandCenter=$commandCenter >> .env
+    - echo webhookURL=$webhookURL >> .env
+    - echo webhookToken=$webhookToken >> .env
+    - echo webhookID=$webhookID >> .env
     - docker run --env-file=.env $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   needs: ["docker-build"]
   dependencies: []
