@@ -7,6 +7,7 @@
     "lint": "eslint --cache --report-unused-disable-directives --ext .js,.ts --ignore-path .gitignore",
     "test": "jest",
     "build": "tsc --version && tsc",
+    "buildWithoutChecks": "tsc --version && tsc --skipLibcheck",
     "commitz": "cz",
     "doc": "typedoc src/index.ts --out docs/typedoc/",
     "pm2": "pm2 start ecosystem.config.yml",

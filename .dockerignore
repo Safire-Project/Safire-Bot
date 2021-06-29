@@ -1,10 +1,25 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-node_modules
-logs
+__tests__
+.github
+.gitlab
+.husky
+.vscode
 dist
+docs
+.editorconfig
+.env.example
 .eslintrc.yml
-.stignore
-README.md
-package-lock.json
+.gitattributes
+.gitignore
+.gitlab-ci.yml.prettierrc.yml
+changelog.md
+contributing.md
+docker-compose.yml
+Dockerfile
+ecosystem.config.yml
+jest.config.jest
+license.md
+ReadMe.md
+safire.code-workspace

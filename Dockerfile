@@ -3,15 +3,17 @@
 
 FROM node:16.3.0-alpine3.13
 
-RUN apk update
-
 WORKDIR /opt/build/safire
+
+ENV NODE_ENV="development"
+
+RUN apk update
 
 COPY . .
 
 RUN npm install
 
-RUN npm run build
+RUN npm run build || npm run buildWithoutChecks
 
 RUN rm -rf src
 
