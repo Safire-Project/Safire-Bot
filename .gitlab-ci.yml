@@ -121,8 +121,6 @@ upload-package:
 
 staging-test:
   image: docker:20.10.7
-  #  tags:
-  #    - safire
   stage: staging
   services:
     - docker:20.10.7-dind
@@ -139,10 +137,3 @@ staging-test:
   needs:
     - docker-build
   dependencies: []
-
-staging-deploy:
-  stage: staging
-  needs:
-    - "staging-test"
-  script:
-    - "ls"

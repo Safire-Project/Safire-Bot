@@ -27,3 +27,5 @@ client
   .catch(() =>
     client.logger.fatal('Could Not Log In.', TOPICS.DISCORD, EVENTS.ERROR),
   );
+
+export default client;

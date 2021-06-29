@@ -1,6 +1,9 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
+/**
+ * Color Codes Defined By Discord
+ */
 export enum COLORS {
   DEFAULT = 0x00_00_00,
   WHITE = 0xff_ff_ff,
