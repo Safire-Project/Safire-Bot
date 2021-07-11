@@ -10,10 +10,10 @@ import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class TopicCommand extends SafireCommand {
-  constructor(context: PieceContext) {
+  constructor (context: PieceContext) {
     super(context, {
       name: 'topic',
-      enabled: false,
+      enabled: true,
       description: 'Set current stage channel to a new topic.',
       preconditions: ['GuildOnly', 'moderator-only'],
     });
