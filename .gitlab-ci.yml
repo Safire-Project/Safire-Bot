@@ -58,9 +58,6 @@ semgrep-sast:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-semgrep-sast:
-  cache: {}
-
 semgrep-ci-report:
   stage: test
   image: returntocorp/semgrep-agent:v1
