@@ -5,7 +5,7 @@ import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { CloseEvent } from 'ws';
 import { EVENTS, TOPICS } from '../../../lib/logger';
 
-export default class ShardDisconnectLogEvent extends Listener<
+export default class ShardDisconnectLoggingEvent extends Listener<
   typeof Events.ShardDisconnect
 > {
   constructor(context: PieceContext) {

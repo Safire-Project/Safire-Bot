@@ -4,20 +4,22 @@ Bryn (Safire Project) */
 import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { EVENTS, TOPICS } from '../../../lib/logger';
 
-export default class ShardResumeLogEvent extends Listener<
-  typeof Events.ShardResume
+export default class DiscordErrorLoggingEvent extends Listener<
+  typeof Events.Error
 > {
   constructor(context: PieceContext) {
     super(context, {
       once: true,
-      event: Events.ShardResume,
+      event: Events.Error,
     });
   }
 
-  async run(id: number, replayedEvents: number): Promise<void> {
-    return this.container.logger.debug(
-      `ID: [${id} - Replayed Event Count: [${replayedEvents}]`,
-      TOPICS.DISCORD_SHARD,
+  async run(error: Error): Promise<void> {
+    return this.container.logger.error(
+      `[${error.name}] - [${error.message}] - [${
+        error.stack ?? 'no stack trace.'
+      }]`,
+      TOPICS.DISCORD,
       EVENTS.ERROR,
     );
   }

@@ -9,7 +9,7 @@ import {
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandErrorFeedbackEvent extends Listener<
+export default class CommandErrorLoggingEvent extends Listener<
   typeof Events.CommandError
 > {
   constructor(context: PieceContext) {

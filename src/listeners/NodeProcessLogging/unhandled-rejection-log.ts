@@ -4,7 +4,7 @@ Bryn (Safire Project) */
 import { Listener, PieceContext } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class NodeUnhandledRejectionEvent extends Listener<'unhandledRejection'> {
+export default class NodeUnhandledRejectionLoggingEvent extends Listener<'unhandledRejection'> {
   constructor(context: PieceContext) {
     const options = {
       emitter: process,

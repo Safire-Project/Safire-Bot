@@ -11,7 +11,7 @@ import { Message } from 'discord.js';
 import SafireCommand from '../../lib/types/safire-command';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandRunFeedbackEvent extends Listener<
+export default class CommandRunLoggingEvent extends Listener<
   typeof Events.CommandRun
 > {
   constructor(context: PieceContext) {

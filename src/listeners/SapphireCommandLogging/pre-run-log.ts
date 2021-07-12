@@ -2,33 +2,29 @@
 Bryn (Safire Project) */
 
 import {
-  CommandDeniedPayload,
+  PreCommandRunPayload,
   Listener,
   Events,
   PieceContext,
-  UserError,
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandDeniedFeedbackEvent extends Listener<
-  typeof Events.CommandDenied
+export default class PreCommandRunLoggingEvent extends Listener<
+  typeof Events.PreCommandRun
 > {
   constructor(context: PieceContext) {
     const options = {
-      event: Events.CommandDenied,
+      event: Events.PreCommandRun,
     };
     super(context, options);
   }
 
   // eslint-disable-next-line functional/no-return-void
-  public async run(
-    error: UserError,
-    { message, command }: CommandDeniedPayload,
-  ): Promise<void> {
+  public async run({ message, command }: PreCommandRunPayload): Promise<void> {
     this.container.logger.debug(
-      `Command: [${command.name}] - Message: [${message.content}] Error: [${error.message}]`,
+      `Command: [${command.name}] - Message: [${message.content}]`,
       TOPICS.SAPPHIRE,
-      EVENTS.COMMAND_DENIED,
+      EVENTS.COMMAND_PRE_RUN,
     );
   }
 }

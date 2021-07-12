@@ -11,7 +11,7 @@ import {
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 import SafireResult from '../../lib/types/safire-result';
 
-export default class CommandSuccessFeedbackEvent extends Listener<
+export default class CommandSuccessLoggingEvent extends Listener<
   typeof Events.CommandSuccess
 > {
   constructor(context: PieceContext) {

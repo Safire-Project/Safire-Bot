@@ -4,7 +4,7 @@ Bryn (Safire Project) */
 import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { EVENTS, TOPICS } from '../../../lib/logger';
 
-export default class ShardErrorLogEvent extends Listener<
+export default class ShardErrorLoggingEvent extends Listener<
   typeof Events.ShardError
 > {
   constructor(context: PieceContext) {

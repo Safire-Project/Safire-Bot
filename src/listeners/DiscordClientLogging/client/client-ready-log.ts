@@ -4,17 +4,21 @@ Bryn (Safire Project) */
 import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { EVENTS, TOPICS } from '../../../lib/logger';
 
-export default class DiscordDebugLogEvent extends Listener<
-  typeof Events.Debug
+export default class DiscordReadyLoggingEvent extends Listener<
+  typeof Events.ClientReady
 > {
   constructor(context: PieceContext) {
     super(context, {
       once: true,
-      event: Events.Debug,
+      event: Events.ClientReady,
     });
   }
 
-  async run(info: string): Promise<void> {
-    return this.container.logger.debug(info, TOPICS.DISCORD, EVENTS.DEBUG);
+  async run(): Promise<void> {
+    return this.container.logger.debug(
+      'Ready event emitted',
+      TOPICS.DISCORD,
+      EVENTS.READY,
+    );
   }
 }

@@ -9,7 +9,7 @@ import {
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandAcceptedLogEvent extends Listener<
+export default class CommandAcceptedLoggingEvent extends Listener<
   typeof Events.CommandAccepted
 > {
   constructor(context: PieceContext) {
