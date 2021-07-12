@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { Message, StageChannel } from 'discord.js';
+import { Message, StageChannel, ThreadChannel } from 'discord.js';
 import { Command, PieceContext } from '@sapphire/framework';
 
 export default class CloseCommand extends Command {
@@ -21,12 +21,14 @@ export default class CloseCommand extends Command {
         .filter((channel) =>
           !channel.parent
             ? false
-            : channel.type === 'stage' &&
+            : channel.type === 'GUILD_STAGE_VOICE' &&
               channel.parent.name.startsWith('Public'),
         )
-        .sort(
-          (channelOne, channelTwo) =>
-            channelOne.members.size - channelTwo.members.size,
+        .sort((channelOne, channelTwo) =>
+          channelOne instanceof ThreadChannel ||
+          channelTwo instanceof ThreadChannel
+            ? 0
+            : channelOne.members.size - channelTwo.members.size,
         )
         // eslint-disable-next-line unicorn/no-null
         .first() ?? null;

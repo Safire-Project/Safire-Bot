@@ -3,13 +3,15 @@ Bryn (Safire Project) */
 
 import {
   CommandErrorPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
 import { MessageReaction } from 'discord.js';
 
-export default class CommandErrorFeedbackEvent extends Event {
+export default class CommandErrorFeedbackEvent extends Listener<
+  typeof Events.CommandError
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandError,

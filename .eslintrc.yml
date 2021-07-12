@@ -29,7 +29,7 @@ plugins:
 
 overrides:
   - files:
-      - "**/*.yml"
+      - '**/*.yml'
     extends:
       - plugin:yml/standard
       - plugin:yml/prettier
@@ -40,7 +40,7 @@ overrides:
         - error
         - prefer: single
   - files:
-      - "**/*.ts"
+      - '**/*.ts'
     extends:
       - plugin:@typescript-eslint/eslint-recommended
       - plugin:@typescript-eslint/recommended
@@ -69,7 +69,7 @@ overrides:
       - prettier
       - plugin:prettier/recommended
       - plugin:regexp/recommended
-    parser: "@typescript-eslint/parser"
+    parser: '@typescript-eslint/parser'
     parserOptions:
       ecmaVersion: 12
       sourceType: module
@@ -77,7 +77,7 @@ overrides:
         - ./tsconfig.json
         - ./__tests__/tsconfig.json
     plugins:
-      - "@typescript-eslint"
+      - '@typescript-eslint'
       - total-functions
       - eslint-comments
       - functional
@@ -96,13 +96,12 @@ overrides:
       - unicorn
       - write-good-comments
     rules:
-      "@typescript-eslint/member-ordering":
+      '@typescript-eslint/member-ordering':
         - error
-      "@typescript-eslint/prefer-nullish-coalescing":
+      '@typescript-eslint/prefer-nullish-coalescing':
         - error
       import/order:
         - error
-      newlines-between: always
       no-nested-ternary:
         - off
       functional/functional-parameters:
@@ -136,6 +135,6 @@ overrides:
       header/header:
         - 2
         - block
-        - - " SPDX-License-Identifier: MIT OR CC0-1.0"
-          - "Bryn (Safire Project) "
+        - - ' SPDX-License-Identifier: MIT OR CC0-1.0'
+          - 'Bryn (Safire Project) '
         - 2

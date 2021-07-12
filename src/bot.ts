@@ -6,7 +6,7 @@ import { TOPICS, EVENTS } from './lib/logger/index';
 import SafireLogger from './lib/logger/safire-logger';
 
 const client = new SapphireClient({
-  defaultPrefix: '?',
+  defaultPrefix: '?!',
   intents: 32_767,
   logger: {
     instance: new SafireLogger(),

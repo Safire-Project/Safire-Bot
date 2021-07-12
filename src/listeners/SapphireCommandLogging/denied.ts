@@ -3,14 +3,16 @@ Bryn (Safire Project) */
 
 import {
   CommandDeniedPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
   UserError,
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandDeniedFeedbackEvent extends Event {
+export default class CommandDeniedFeedbackEvent extends Listener<
+  typeof Events.CommandDenied
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandDenied,

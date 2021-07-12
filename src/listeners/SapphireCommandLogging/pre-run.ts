@@ -3,13 +3,15 @@ Bryn (Safire Project) */
 
 import {
   PreCommandRunPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class PreCommandRunFeedbackEvent extends Event {
+export default class PreCommandRunFeedbackEvent extends Listener<
+  typeof Events.PreCommandRun
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.PreCommandRun,

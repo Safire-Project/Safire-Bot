@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { Event, PieceContext } from '@sapphire/framework';
+import { Listener, PieceContext } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class NodeUnhandledRejectionEvent extends Event {
+export default class NodeUnhandledRejectionEvent extends Listener<'unhandledRejection'> {
   constructor(context: PieceContext) {
     const options = {
       emitter: process,

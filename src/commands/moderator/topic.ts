@@ -10,7 +10,7 @@ import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class TopicCommand extends SafireCommand {
-  constructor (context: PieceContext) {
+  constructor(context: PieceContext) {
     super(context, {
       name: 'topic',
       enabled: true,

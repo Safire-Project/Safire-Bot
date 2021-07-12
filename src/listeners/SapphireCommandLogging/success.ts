@@ -3,7 +3,7 @@ Bryn (Safire Project) */
 
 import {
   CommandSuccessPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
@@ -11,7 +11,9 @@ import {
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 import SafireResult from '../../lib/types/safire-result';
 
-export default class CommandSuccessFeedbackEvent extends Event {
+export default class CommandSuccessFeedbackEvent extends Listener<
+  typeof Events.CommandSuccess
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandSuccess,

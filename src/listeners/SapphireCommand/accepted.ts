@@ -3,13 +3,15 @@ Bryn (Safire Project) */
 
 import {
   CommandAcceptedPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
 import { MessageReaction } from 'discord.js';
 
-export default class CommandAcceptedFeedbackEvent extends Event {
+export default class CommandAcceptedFeedbackEvent extends Listener<
+  typeof Events.CommandAccepted
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandAccepted,

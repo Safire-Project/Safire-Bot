@@ -2,14 +2,16 @@
 Bryn (Safire Project) */
 
 import { stripIndents } from 'common-tags';
-import { Event, Events, PieceContext } from '@sapphire/framework';
+import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { Message } from 'discord.js';
 
-export default class MessageTokenFilterEvent extends Event<Events.Message> {
+export default class MessageTokenFilterEvent extends Listener<
+  typeof Events.MessageCreate
+> {
   constructor(context: PieceContext) {
     super(context, {
       once: true,
-      event: Events.Message,
+      event: Events.MessageCreate,
     });
   }
 

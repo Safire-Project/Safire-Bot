@@ -3,13 +3,15 @@ Bryn (Safire Project) */
 
 import {
   CommandAcceptedPayload,
-  Event,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandAcceptedLogEvent extends Event {
+export default class CommandAcceptedLogEvent extends Listener<
+  typeof Events.CommandAccepted
+> {
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandAccepted,

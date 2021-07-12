@@ -2,8 +2,8 @@
 Bryn (Safire Project) */
 
 import {
-  CommandRunPayload,
-  Event,
+  CommandFinishPayload,
+  Listener,
   Events,
   PieceContext,
 } from '@sapphire/framework';
@@ -11,26 +11,27 @@ import { Message } from 'discord.js';
 import SafireCommand from '../../lib/types/safire-command';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
 
-export default class CommandRunFeedbackEvent extends Event {
+export default class CommandFinishFeedbackEvent extends Listener<
+  typeof Events.CommandFinish
+> {
   constructor(context: PieceContext) {
     const options = {
-      event: Events.CommandRun,
+      event: Events.CommandFinish,
     };
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
   public async run(
     message: Message,
     command: SafireCommand,
-    payload: CommandRunPayload,
+    payload: CommandFinishPayload,
   ): Promise<void> {
     this.container.logger.debug(
       `Command: [${command.name}] - Message: [${
         message.content
       }] - Parameters: [${payload.parameters.toString()}]`,
       TOPICS.SAPPHIRE,
-      EVENTS.COMMAND_RUN,
+      EVENTS.COMMAND_FINISHED,
     );
   }
 }

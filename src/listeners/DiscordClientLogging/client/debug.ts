@@ -1,18 +1,20 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { Event, Events, PieceContext } from '@sapphire/framework';
+import { Listener, Events, PieceContext } from '@sapphire/framework';
 import { EVENTS, TOPICS } from '../../../lib/logger';
 
-export default class DiscordWarnLogEvent extends Event<Events.Warn> {
+export default class DiscordDebugLogEvent extends Listener<
+  typeof Events.Debug
+> {
   constructor(context: PieceContext) {
     super(context, {
       once: true,
-      event: Events.Warn,
+      event: Events.Debug,
     });
   }
 
   async run(info: string): Promise<void> {
-    return this.container.logger.warn(info, TOPICS.DISCORD, EVENTS.WARN);
+    return this.container.logger.debug(info, TOPICS.DISCORD, EVENTS.DEBUG);
   }
 }
