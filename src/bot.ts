@@ -12,7 +12,13 @@ const client = new SapphireClient({
     instance: new SafireLogger(LogLevel.Trace),
   },
   partials: ['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'],
-  presence: { afk: false, status: 'online', activities: [{ name: '?help' }] },
+  presence: {
+    afk: false,
+    status: 'online',
+    activities: [
+      { name: `${process.env['DEFAULT_PREFIX'] ?? '<@mention>'}help` },
+    ],
+  },
 });
 
 client
