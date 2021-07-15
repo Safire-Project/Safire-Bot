@@ -60,7 +60,7 @@ export default class PollCommand extends SafireCommand {
     super(context, {
       aliases: ['p'],
       name: 'poll',
-      description: 'Spawns a new poll.',
+      description: 'Starts a new poll.',
       preconditions: ['GuildOnly'],
     });
   }

@@ -9,8 +9,7 @@ export default class DespawnCommand extends Command {
     const options = {
       name: 'despawn',
       enabled: true,
-      description:
-        'Despawns all empty stage channels and if there are no public stage channels, deletes the category',
+      description: 'Despawns empty stages.',
       preconditions: ['GuildOnly', 'moderator-only'],
     };
     super(context, options);

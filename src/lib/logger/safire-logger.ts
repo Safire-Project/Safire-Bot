@@ -6,6 +6,16 @@ import { ILogger, LogLevel } from '@sapphire/framework';
 import { logger } from './index';
 
 export default class SafireLogger implements ILogger {
+  public readonly level: LogLevel;
+
+  public constructor(level: LogLevel) {
+    this.level = level;
+  }
+
+  public has(level: LogLevel): boolean {
+    return level >= this.level;
+  }
+
   trace(
     message: string,
     topic: string,

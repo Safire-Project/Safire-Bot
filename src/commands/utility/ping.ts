@@ -2,7 +2,7 @@
 Bryn (Safire Project) */
 
 import { PieceContext } from '@sapphire/framework';
-import { Message } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
@@ -10,7 +10,7 @@ export default class PingCommand extends SafireCommand {
   constructor(context: PieceContext) {
     const options = {
       name: 'ping',
-      description: 'Send back the ping of the bot',
+      description: 'Sends the ping and latency of Safire.',
     };
     super(context, options);
   }
@@ -18,14 +18,19 @@ export default class PingCommand extends SafireCommand {
   async run(message: Message): Promise<SafireResult> {
     return message.channel
       .send('Ping?')
+      .then((pingMessage) => pingMessage.delete())
       .then(
-        (pingMessage) =>
+        (deletedMessage) =>
           new SafireResult(
             `Pong! Bot Latency ${Math.round(
               this.container.client.ws.ping,
             )}ms. API Latency ${
-              pingMessage.createdTimestamp - message.createdTimestamp
+              deletedMessage.createdTimestamp - message.createdTimestamp
             }ms.`,
+            new MessageEmbed().setAuthor(
+              this.container.client.user?.username ?? 'Safire',
+            ),
+            { printResult: true, sendEmbed: true },
           ),
       );
   }

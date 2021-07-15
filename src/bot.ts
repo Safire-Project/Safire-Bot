@@ -1,15 +1,15 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { SapphireClient } from '@sapphire/framework';
+import { LogLevel, SapphireClient } from '@sapphire/framework';
 import { TOPICS, EVENTS } from './lib/logger/index';
 import SafireLogger from './lib/logger/safire-logger';
 
 const client = new SapphireClient({
-  defaultPrefix: '?!',
+  defaultPrefix: process.env['DEFAULT_PREFIX'],
   intents: 32_767,
   logger: {
-    instance: new SafireLogger(),
+    instance: new SafireLogger(LogLevel.Trace),
   },
   partials: ['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION'],
   presence: { afk: false, status: 'online', activities: [{ name: '?help' }] },

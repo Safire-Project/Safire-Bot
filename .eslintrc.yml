@@ -130,6 +130,8 @@ overrides:
         - error
       no-secrets/no-secrets:
         - error
+      unicorn/no-array-for-each:
+        - off
       write-good-comments/write-good-comments:
         - warn
       header/header:

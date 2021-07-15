@@ -9,7 +9,7 @@ export default class CloseCommand extends Command {
     super(context, {
       enabled: false,
       name: 'close',
-      description: 'Closes current channel',
+      description: 'Closes current stage.',
       preconditions: ['GuildOnly', 'moderator-only'],
     });
   }
