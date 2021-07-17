@@ -11,10 +11,11 @@ export default class SpawnCommand extends SafireCommand {
 
   constructor(context: PieceContext) {
     super(context, {
-      aliases: ['sp'],
-      enabled: true,
-      name: 'spawn',
+      aliases: ['sps', 'stagespawn', 'spawnstage', 'spstages', 'stagesp'],
+      name: 'spawns',
       description: 'Spawns a new stage channel.',
+      detailedDescription:
+        'Spawns a Public Stages section with a topic-request channel that are both visible to all server members, then spawns a new stage channel that is numerically labeled.',
       preconditions: ['GuildOnly', 'moderator-only'],
     });
     this.stageCategoryName = 'Public Stages';
@@ -84,7 +85,7 @@ export default class SpawnCommand extends SafireCommand {
               ? Promise.reject(new Error('Stage Channel not spawned.'))
               : this.spawnUnique(
                   'topic-request',
-                  'This channel is where you can suggest a topic that you\'d like to discuss on stage. Type "@moderator topic suggestion: [your topic here]" and be ready to speak!',
+                  'This channel is where you can suggest a topic that you\'d like to discuss on stage. Type "topic suggestion: [your topic here]", ping the moderation team and be ready to speak!',
                   stageChannel,
                 ),
           )

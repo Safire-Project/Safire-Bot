@@ -12,9 +12,12 @@ import SafireResult from '../../lib/types/safire-result';
 export default class TopicCommand extends SafireCommand {
   constructor(context: PieceContext) {
     super(context, {
+      aliases: ['top', 'tp', 'stagetopic'],
       name: 'topic',
-      enabled: true,
       description: 'Set current stage channel to a new topic.',
+      detailedDescription:
+        '`topic [phrase]`\n\n' +
+        'To call the command, the user must be in a stage channel that is started. The stage will be set to the rest of the message that is sent to the bot minus the command. For example, a call of `?topic Safire Rocks!` will set the current stage channel\'s topic to "Safire Rocks!"',
       preconditions: ['GuildOnly', 'moderator-only'],
     });
   }
@@ -25,7 +28,11 @@ export default class TopicCommand extends SafireCommand {
       .rest('string')
       .then((topicString) =>
         !(message?.member?.voice.channel instanceof StageChannel)
-          ? Promise.reject(new Error('No topic given.'))
+          ? Promise.reject(
+              new Error(
+                'Not currently in a stage channel, join one and retry.',
+              ),
+            )
           : message.member.voice.channel.setTopic(topicString),
       )
       .then((channel) =>

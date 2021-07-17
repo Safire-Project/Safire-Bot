@@ -3,16 +3,18 @@ Bryn (Safire Project) */
 
 import { Args, PieceContext } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
+// eslint-disable-next-line node/no-missing-import
+import { sep } from 'node:path';
 import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class HelpCommand extends SafireCommand {
   constructor(context: PieceContext) {
-    const options = {
+    super(context, {
+      aliases: ['h', 'man', 'manual', 'guide', 'usage'],
       name: 'help',
       description: 'Sends a helpful message.',
-    };
-    super(context, options);
+    });
   }
 
   async run(message: Message, commandArguments: Args): Promise<SafireResult> {
@@ -27,11 +29,11 @@ export default class HelpCommand extends SafireCommand {
           .then(
             (command) =>
               new SafireResult(
-                `Name: ${command.name}\nDescription: ${
+                `Name: ${command.name} - Description: ${
                   command.description
-                }\nDetailed Description: ${
+                } - Detailed Description: ${
                   command.detailedDescription
-                }\nAliases: ${command.aliases.toLocaleString()}\nEnabled: ${String(
+                } - Aliases: ${command.aliases.toLocaleString()} - Enabled: ${String(
                   command.enabled,
                 )}`,
                 new MessageEmbed()
@@ -50,12 +52,29 @@ export default class HelpCommand extends SafireCommand {
                   )
                   .addFields(
                     [
+                      {
+                        name: 'Category',
+                        value: (command instanceof SafireCommand
+                          ? command.fullCategory
+                          : this.path
+                              .split(sep)
+                              .slice(
+                                this.path.split(sep).indexOf('commands') + 1,
+                                -1,
+                              )
+                        )
+                          .map(
+                            (categorySubstring) =>
+                              categorySubstring.charAt(0).toLocaleUpperCase() +
+                              categorySubstring.slice(1),
+                          )
+                          .join(' '),
+                      },
                       { name: 'Details', value: command.detailedDescription },
                       {
                         name: 'Aliases',
                         value: command.aliases.toLocaleString(),
                       },
-                      { name: 'Path', value: command.path },
                     ].filter((field) => field.value.length > 0),
                   ),
                 {
@@ -107,7 +126,10 @@ export default class HelpCommand extends SafireCommand {
                     .map((printableCommand) => ({
                       name: printableCommand.name,
                       value: `${printableCommand.description}`,
-                    })),
+                    }))
+                    .sort((formerField, latterField) =>
+                      formerField.name > latterField.name ? 1 : -1,
+                    ),
                 ),
               {
                 printResult: true,

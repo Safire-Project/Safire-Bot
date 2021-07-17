@@ -8,11 +8,13 @@ import SafireResult from '../../lib/types/safire-result';
 
 export default class PingCommand extends SafireCommand {
   constructor(context: PieceContext) {
-    const options = {
-      name: 'ping',
+    super(context, {
+      aliases: ['gateway', 'latency'],
       description: 'Sends the ping and latency of Safire.',
-    };
-    super(context, options);
+      detailedDescription:
+        'Calculates a full round trip for the Discord websocket.',
+      name: 'ping',
+    });
   }
 
   async run(message: Message): Promise<SafireResult> {
@@ -27,9 +29,28 @@ export default class PingCommand extends SafireCommand {
             )}ms. API Latency ${
               deletedMessage.createdTimestamp - message.createdTimestamp
             }ms.`,
-            new MessageEmbed().setAuthor(
-              this.container.client.user?.username ?? 'Safire',
-            ),
+            new MessageEmbed()
+              .setAuthor(this.container.client.user?.username ?? 'Safire')
+              .setColor('RANDOM')
+              .setDescription(
+                `Details for __**${
+                  this.container.client.ws.gateway ?? 'gateway'
+                }**__`,
+              )
+              .addFields([
+                {
+                  name: 'Bot Latency',
+                  value: `${Math.round(this.container.client.ws.ping)}ms`,
+                  inline: true,
+                },
+                {
+                  name: 'API Latency',
+                  value: `${
+                    deletedMessage.createdTimestamp - message.createdTimestamp
+                  }ms`,
+                  inline: true,
+                },
+              ]),
             { printResult: true, sendEmbed: true },
           ),
       );

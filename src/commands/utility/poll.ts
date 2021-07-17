@@ -58,9 +58,12 @@ export default class PollCommand extends SafireCommand {
 
   constructor(context: PieceContext) {
     super(context, {
-      aliases: ['p'],
+      aliases: ['po', 'pl', 'strawpoll', 'spoll'],
       name: 'poll',
       description: 'Starts a new poll.',
+      detailedDescription:
+        '`poll question to ask | option 1 | option 2 | option 3`\n\n' +
+        'Will start a new strawpoll with the given message as the question. By default, the command will give Yes/No options. If you would like to set custom options, then you may separate out a maximum of 25 options separated by |.',
       preconditions: ['GuildOnly'],
     });
   }

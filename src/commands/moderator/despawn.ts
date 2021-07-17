@@ -4,15 +4,24 @@ Bryn (Safire Project) */
 import { Command, PieceContext } from '@sapphire/framework';
 import { CategoryChannel, GuildChannel, Message } from 'discord.js';
 
-export default class DespawnCommand extends Command {
+export default class StageDespawnCommand extends Command {
   constructor(context: PieceContext) {
-    const options = {
-      name: 'despawn',
-      enabled: true,
-      description: 'Despawns empty stages.',
+    super(context, {
+      aliases: [
+        'sd',
+        'ds',
+        'stagedestroy',
+        'destroystages',
+        'despawnstages',
+        'dstages',
+        'stagesd',
+      ],
+      name: 'despawns',
+      description: 'Despawns empty stages in the public stage category.',
+      detailedDescription:
+        'Sorts through the Public Stages category and deletes each stage that has no members listening or speaking. If there are no stages remaining after this process, the category and public text channel are also deleted.',
       preconditions: ['GuildOnly', 'moderator-only'],
-    };
-    super(context, options);
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this, sonarjs/cognitive-complexity
@@ -75,7 +84,7 @@ export default class DespawnCommand extends Command {
           })
           .then((stageCategory) => {
             return stageCategory
-              ? `Despawned ${stageCategory?.toString() ?? 'but broke.'}`
+              ? `Despawned ${stageCategory?.id ?? 'but broke.'}`
               : Promise.reject(new Error('category at logging is undefined'));
           });
   }

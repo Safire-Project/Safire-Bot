@@ -133,6 +133,7 @@ staging-test:
     - echo webhookURL=$webhookURL >> .env
     - echo webhookToken=$webhookToken >> .env
     - echo webhookID=$webhookID >> .env
+    - echo GIT_BRANCH=$CI_COMMIT_BRANCH >> .env
     - docker run --env-file=.env $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   needs:
     - docker-build
