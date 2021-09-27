@@ -1,10 +1,10 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { Args, PieceContext } from '@sapphire/framework';
-import { Message, MessageEmbed } from 'discord.js';
 // eslint-disable-next-line node/no-missing-import
 import { sep } from 'node:path';
+import { Args, PieceContext } from '@sapphire/framework';
+import { Message, MessageEmbed } from 'discord.js';
 import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 

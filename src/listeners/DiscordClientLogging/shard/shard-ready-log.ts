@@ -16,7 +16,7 @@ export default class ShardReadyLoggingEvent extends Listener<
 
   async run(
     shardID: number,
-    unavailableGuilds: Set<string> | undefined,
+    unavailableGuilds: ReadonlySet<string> | undefined,
   ): Promise<void> {
     return this.container.logger.debug(
       `ID: [${shardID}] - Unavailable: [${

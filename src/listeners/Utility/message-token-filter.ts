@@ -16,7 +16,7 @@ export default class MessageTokenFilterEvent extends Listener<
   }
 
   async run(message: Message): Promise<Message | undefined | void> {
-    const matches = /([\w-]+={0,2})\.([\w-]+={0,2})\.([\w-]+={0,2})/g.exec(
+    const matches = /([\w-]+={0,2})\.([\w-]+={0,2})\.([\w-]+={0,2})/.exec(
       message.content,
     );
     return !matches ||

@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
+// eslint-disable-next-line node/no-missing-import
+import { sep } from 'node:path';
 import {
   Command,
   Args,
@@ -8,8 +10,6 @@ import {
   PieceContext,
 } from '@sapphire/framework';
 import { Message } from 'discord.js';
-// eslint-disable-next-line node/no-missing-import
-import { sep } from 'node:path';
 import SafireResult from './safire-result';
 
 export default abstract class SafireCommand extends Command {
