@@ -33,7 +33,7 @@ before_script:
 initialize-npm:
   stage: init
   script:
-    - npm ci
+    - npm ci || NODE_ENV=development npm install
   dependencies: []
 
 eslint:
