@@ -1,12 +1,16 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { WebhookClient, MessageEmbed } from 'discord.js';
 import os from 'os'; // eslint-disable-line unicorn/prefer-node-protocol
+import {
+  WebhookClient,
+  MessageEmbed,
+  WebhookClientData,
+  WebhookClientOptions,
+} from 'discord.js';
 import Transport, { TransportStreamOptions } from 'winston-transport';
 // eslint-disable-next-line node/no-unpublished-import
-import { APIMessage } from '../../../node_modules/discord.js/node_modules/discord-api-types/payloads/v8';
-
+import { APIMessage } from '../../../node_modules/discord.js/node_modules/discord-api-types/payloads/v9';
 import { COLORS } from '../types/colors';
 
 /**
@@ -14,8 +18,8 @@ import { COLORS } from '../types/colors';
  */
 type DiscordTransportOptions = TransportStreamOptions & {
   readonly discord?: boolean;
-  readonly webhookID: `${bigint}`;
-  readonly webhookToken: string;
+  readonly webhookClientData: WebhookClientData;
+  readonly webhookClientOptions: WebhookClientOptions | undefined;
 };
 
 type LoggerElements = Record<string, unknown> & {
@@ -51,7 +55,10 @@ export default class DiscordTransport extends Transport {
     this.webhook =
       options.discord === false
         ? undefined
-        : new WebhookClient(options.webhookID, options.webhookToken);
+        : new WebhookClient(
+            options.webhookClientData,
+            options.webhookClientOptions,
+          );
   }
 
   /**

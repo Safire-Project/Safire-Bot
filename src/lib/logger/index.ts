@@ -62,8 +62,12 @@ export const logger = createLogger({
       ? new NullTransport({})
       : new DiscordTransport({
           // eslint-disable-next-line total-functions/no-unsafe-type-assertion
-          webhookID: `${BigInt(process.env['webhookID'] ?? '')}`,
-          webhookToken: process.env['webhookToken'] ?? '',
+          webhookClientData: {
+            id: process.env['webhookID'] ?? '',
+            token: process.env['webhookToken'] ?? '',
+            url: process.env['webhookURL'] ?? '',
+          },
+          webhookClientOptions: {},
           level: 'info',
         }),
     new transports.File({

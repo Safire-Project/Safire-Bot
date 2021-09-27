@@ -15,11 +15,11 @@ export default class ShardReadyLoggingEvent extends Listener<
   }
 
   async run(
-    id: number,
-    unavailableGuilds: ReadonlySet<`${bigint}`> | undefined,
+    shardID: number,
+    unavailableGuilds: Set<string> | undefined,
   ): Promise<void> {
     return this.container.logger.debug(
-      `ID: [${id}] - Unavailable: [${
+      `ID: [${shardID}] - Unavailable: [${
         unavailableGuilds?.size ?? 'No Unavailable Data Given'
       }]`,
       TOPICS.DISCORD_SHARD,

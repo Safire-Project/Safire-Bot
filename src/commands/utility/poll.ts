@@ -149,7 +149,7 @@ export default class PollCommand extends SafireCommand {
   private readonly handlePollCloser = async function handlePollCloseEvent(
     this: PollCommand,
     message: Message,
-    interactionCollector: Collection<`${bigint}`, MessageComponentInteraction>,
+    interactionCollector: Collection<string, MessageComponentInteraction>,
     commandArguments: Args,
     salt: Snowflake,
   ): Promise<void> {
@@ -203,8 +203,11 @@ export default class PollCommand extends SafireCommand {
                   !(interaction.member instanceof GuildMember)
                     ? new GuildMember(
                         this.container.client,
-                        undefined,
-                        new Guild(this.container.client, undefined),
+                        { user: { id: interaction.user.id } },
+                        new Guild(this.container.client, {
+                          id: interaction.guild?.id ?? '',
+                          unavailable: !interaction.guild?.available,
+                        }),
                       )
                     : interaction.member,
                 ),

@@ -56,10 +56,12 @@ export default class HelpCommand extends SafireCommand {
                         name: 'Category',
                         value: (command instanceof SafireCommand
                           ? command.fullCategory
-                          : this.path
+                          : this.location.full
                               .split(sep)
                               .slice(
-                                this.path.split(sep).indexOf('commands') + 1,
+                                this.location.full
+                                  .split(sep)
+                                  .indexOf('commands') + 1,
                                 -1,
                               )
                         )
@@ -85,13 +87,12 @@ export default class HelpCommand extends SafireCommand {
           )
       : Promise.all(
           this.store
-            .array()
             .filter((piece): piece is SafireCommand => 'preconditions' in piece)
             .map((command) => command.preconditions.run(message, command)),
         ).then(
           async (printableCommands) =>
             new SafireResult(
-              this.store.keyArray().toLocaleString(),
+              this.store.keys().toLocaleString(),
               new MessageEmbed()
                 .setAuthor(
                   this.container.client.user?.username ?? 'Safire',
@@ -115,8 +116,7 @@ export default class HelpCommand extends SafireCommand {
                     }) instead!`,
                 )
                 .addFields(
-                  this.store
-                    .array()
+                  [...this.store.values()]
                     .filter(
                       (piece): piece is SafireCommand => 'description' in piece,
                     )
@@ -125,7 +125,7 @@ export default class HelpCommand extends SafireCommand {
                     )
                     .map((printableCommand) => ({
                       name: printableCommand.name,
-                      value: `${printableCommand.description}`,
+                      value: printableCommand.description,
                     }))
                     .sort((formerField, latterField) =>
                       formerField.name > latterField.name ? 1 : -1,

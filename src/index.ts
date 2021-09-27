@@ -9,7 +9,7 @@ const manager = new ShardingManager('./dist/bot.js', {
 });
 
 function kill(): never {
-  // eslint-disable-next-line unicorn/no-process-exit
+  // eslint-disable-next-line unicorn/no-process-exit, no-process-exit
   return process.exit(0);
 }
 
