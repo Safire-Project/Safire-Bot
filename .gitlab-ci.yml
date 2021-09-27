@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-image: node:16.2.0-alpine3.13
+image: node:16.3.0-alpine3.13
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
@@ -44,18 +44,19 @@ eslint:
   artifacts:
     reports:
       codequality: gl-codequality.json
-  needs: ["initialize-npm"]
+  needs:
+    - initialize-npm
   dependencies: []
 
 sast:
   stage: test
   needs: []
 
-include:
-  - template: Security/SAST.gitlab-ci.yml
-
 semgrep-sast:
   cache: {}
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
 
 semgrep-ci-report:
   stage: test
@@ -75,7 +76,8 @@ jest-junit:
     reports:
       junit:
         - junit.xml
-  needs: ["initialize-npm"]
+  needs:
+    - initialize-npm
   dependencies: []
 
 compile-typescript:
@@ -87,14 +89,15 @@ compile-typescript:
     expire_in: 1 month
     paths:
       - dist
-  needs: ["initialize-npm"]
+  needs:
+    - initialize-npm
   only:
     - tags
 
 docker-build:
-  image: docker:20.10.6
+  image: docker:20.10.7
   services:
-    - docker:20.10.6-dind
+    - docker:20.10.7-dind
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -102,7 +105,8 @@ docker-build:
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
-  needs: ["initialize-npm"]
+  needs:
+    - initialize-npm
   dependencies: []
 
 upload-package:
@@ -110,22 +114,27 @@ upload-package:
   script:
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
     - npm publish
-  needs: ["compile-typescript"]
+  needs:
+    - compile-typescript
   only:
     - tags
 
-staging-deploy:
-  image: docker:20.10.6
-  tags:
-    - safire
+staging-test:
+  image: docker:20.10.7
   stage: staging
   services:
-    - docker:20.10.6-dind
+    - docker:20.10.7-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
     - echo NODE_ENV=ci >> .env
+    - echo commandCenter=$commandCenter >> .env
+    - echo webhookURL=$webhookURL >> .env
+    - echo webhookToken=$webhookToken >> .env
+    - echo webhookID=$webhookID >> .env
+    - echo GIT_BRANCH=$CI_COMMIT_BRANCH >> .env
     - docker run --env-file=.env $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-  needs: ["docker-build"]
+  needs:
+    - docker-build
   dependencies: []

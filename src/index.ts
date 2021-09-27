@@ -2,18 +2,22 @@
 Bryn (Safire Project) */
 
 import { ShardingManager } from 'discord.js';
+import { TOPICS, EVENTS, logger } from './lib/logger/index';
 
 const manager = new ShardingManager('./dist/bot.js', {
   token: process.env['DISCORD_TOKEN'] ?? '',
 });
 
 function kill(): never {
-  // eslint-disable-next-line unicorn/no-process-exit
+  // eslint-disable-next-line unicorn/no-process-exit, no-process-exit
   return process.exit(0);
 }
 
 manager.on('shardCreate', (shard) => {
-  console.log(`Launched shard ${shard.id}`); // eslint-disable-line no-console
+  logger.debug(`Launched shard ${shard.id}`, {
+    topic: TOPICS.DISCORD_SHARD,
+    event: EVENTS.INIT,
+  });
   // eslint-disable-next-line functional/no-expression-statement
   shard.on('message', (message: string) => {
     // eslint-disable-next-line functional/no-expression-statement
@@ -21,5 +25,5 @@ manager.on('shardCreate', (shard) => {
   });
 });
 
-const shardManagercollection = await manager.spawn();
+const shardManagercollection = manager.spawn();
 export default shardManagercollection;

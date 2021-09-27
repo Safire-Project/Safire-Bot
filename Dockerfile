@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-FROM node:16.2.0-alpine3.13
-
-RUN apk update
+FROM node:16.3.0-alpine3.13
 
 WORKDIR /opt/build/safire
+
+ENV NODE_ENV="development"
+
+RUN apk update
 
 COPY . .
 
