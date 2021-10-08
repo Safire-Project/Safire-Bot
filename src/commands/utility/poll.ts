@@ -9,10 +9,9 @@ import {
   InteractionCollector,
   TextChannel,
   Collection,
-  GuildMember,
   MessageComponentInteraction,
   Snowflake,
-  Guild,
+  User,
 } from 'discord.js';
 import { Args, PieceContext } from '@sapphire/framework';
 import { TOPICS, EVENTS } from '../../lib/logger';
@@ -40,7 +39,7 @@ export default class PollCommand extends SafireCommand {
     ],
   };
 
-  private readonly timeout = 30_000;
+  private readonly timeout = 360_000_000;
 
   private readonly delimiter = '|';
 
@@ -51,7 +50,7 @@ export default class PollCommand extends SafireCommand {
       {
         readonly count: number;
         // eslint-disable-next-line functional/prefer-readonly-type
-        readonly voters: Array<GuildMember>;
+        readonly voters: Array<User>;
       }
     >
   >();
@@ -64,7 +63,6 @@ export default class PollCommand extends SafireCommand {
       detailedDescription:
         '`poll question to ask | option 1 | option 2 | option 3`\n\n' +
         'Will start a new strawpoll with the given message as the question. By default, the command will give Yes/No options. If you would like to set custom options, then you may separate out a maximum of 25 options separated by |.',
-      preconditions: ['GuildOnly'],
     });
   }
 
@@ -119,12 +117,6 @@ export default class PollCommand extends SafireCommand {
                   .setTitle(`__***${processedString}***__`)
                   .setColor('RANDOM')
                   .setAuthor(`${message.author.tag} asked:`)
-                  .setImage(
-                    message.guild?.splashURL() ??
-                      message.guild?.bannerURL() ??
-                      message.guild?.iconURL() ??
-                      message.author.displayAvatarURL(),
-                  )
                   .addFields(
                     this.pollCache
                       .get(`${processedString}-${message.id}`)
@@ -195,32 +187,20 @@ export default class PollCommand extends SafireCommand {
                 cachedPollData.has(interaction.customId),
               idle: this.timeout,
             })
-            .on('collect', (interaction) => {
+            .on('collect', async (interaction) => {
               const voters =
                 cachedPollData.get(interaction.customId)?.voters ?? [];
               const oldKey = cachedPollData.findKey((pollData) =>
-                pollData.voters.includes(
-                  !(interaction.member instanceof GuildMember)
-                    ? new GuildMember(
-                        this.container.client,
-                        { user: { id: interaction.user.id } },
-                        new Guild(this.container.client, {
-                          id: interaction.guild?.id ?? '',
-                          unavailable: !interaction.guild?.available,
-                        }),
-                      )
-                    : interaction.member,
-                ),
+                pollData.voters.includes(interaction.user),
               );
               const oldData = cachedPollData.get(
                 oldKey ?? cachedPollData.firstKey() ?? '',
               );
               return !(interaction.channel instanceof TextChannel) ||
                 !message.embeds[0] ||
-                !(interaction.message instanceof Message) ||
-                !(interaction.member instanceof GuildMember)
+                !(interaction.message instanceof Message)
                 ? Promise.reject(new Error('cannot find original poll embed.'))
-                : voters.includes(interaction.member)
+                : voters.includes(interaction.user)
                 ? interaction.reply({
                     content: 'You already voted this way!',
                     ephemeral: true,
@@ -236,16 +216,14 @@ export default class PollCommand extends SafireCommand {
                                 count: (oldData?.count ?? 0) - (oldKey ? 1 : 0),
                                 voters:
                                   oldData?.voters.filter((voter) =>
-                                    oldKey
-                                      ? voter !== interaction.member
-                                      : true,
+                                    oldKey ? voter !== interaction.user : true,
                                   ) ?? [],
                               })
                               .set(interaction.customId, {
                                 count:
                                   (cachedPollData.get(interaction.customId)
                                     ?.count ?? 0) + 1,
-                                voters: [...voters, interaction.member] ?? [],
+                                voters: [...voters, interaction.user] ?? [],
                               })
                               .map((value, key) => ({
                                 name: `${key} - ${value.count}`,
@@ -257,6 +235,41 @@ export default class PollCommand extends SafireCommand {
                                         .slice(0, 1500 / cachedPollData.size)
                                 }`,
                               })),
+                          )
+                          .addField(
+                            'test',
+                            encodeURI(
+                              `https://quickchart.io/chart?c= ${JSON.stringify({
+                                type: 'bar',
+                                labels: [
+                                  await this.getPollQuestion(commandArguments),
+                                  'yo',
+                                  'hi',
+                                  'whats good',
+                                ],
+                                data: {
+                                  datasets: cachedPollData.map(
+                                    (_value, key) => ({
+                                      label: key,
+                                      data: [20, 30, 40],
+                                    }),
+                                  ),
+                                },
+                              })}`,
+                            ),
+                          )
+                          .addField(
+                            'plain test',
+                            `https://quickchart.io/chart?c= ${JSON.stringify({
+                              type: 'bar',
+                              labels: [
+                                await this.getPollQuestion(commandArguments),
+                              ],
+                              data: cachedPollData.map((_value, key) => ({
+                                label: key,
+                                data: [50],
+                              })),
+                            })}`,
                           ),
                       ],
                     })
