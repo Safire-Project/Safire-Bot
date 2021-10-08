@@ -9,8 +9,7 @@ import {
   WebhookClientOptions,
 } from 'discord.js';
 import Transport, { TransportStreamOptions } from 'winston-transport';
-// eslint-disable-next-line node/no-unpublished-import
-import { APIMessage } from '../../../node_modules/discord.js/node_modules/discord-api-types/payloads/v9';
+import { APIMessage } from 'discord-api-types';
 import { COLORS } from '../types/colors';
 
 /**
