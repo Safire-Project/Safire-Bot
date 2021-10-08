@@ -7,7 +7,15 @@ import SafireLogger from './lib/logger/safire-logger';
 
 const client = new SapphireClient({
   defaultPrefix: process.env['DEFAULT_PREFIX'],
-  intents: 32_767,
+  intents: [
+    'GUILDS',
+    'GUILD_BANS',
+    'GUILD_INVITES',
+    'GUILD_MEMBERS',
+    'GUILD_MESSAGES',
+    'GUILD_VOICE_STATES',
+    'GUILD_WEBHOOKS',
+  ],
   logger: {
     instance: new SafireLogger(LogLevel.Trace),
   },

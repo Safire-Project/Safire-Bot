@@ -4,7 +4,14 @@ Bryn (Safire Project) */
 import { Precondition, PreconditionResult } from '@sapphire/framework';
 import { Message } from 'discord.js';
 
-export default class extends Precondition {
+declare module '@sapphire/framework' {
+  // eslint-disable-next-line functional/prefer-type-literal
+  interface Preconditions {
+    readonly ModeratorOnly: never;
+  }
+}
+
+export default class ModeratorOnly extends Precondition {
   public run(message: Message): PreconditionResult {
     return !message.member
       ? this.error({
