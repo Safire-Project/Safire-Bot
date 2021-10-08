@@ -10,7 +10,7 @@ const manager = new ShardingManager('./dist/bot.js', {
 
 function kill(): never {
   // eslint-disable-next-line unicorn/no-process-exit, no-process-exit
-  return process.exit(0);
+  return process.exit(1);
 }
 
 manager.on('shardCreate', (shard) => {
