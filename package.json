@@ -8,7 +8,6 @@
     "test": "jest",
     "build": "tsc --version && tsc",
     "buildWithoutChecks": "tsc --version && tsc --skipLibcheck",
-    "commitz": "cz",
     "doc": "typedoc src/index.ts --out docs/typedoc/",
     "pm2": "pm2 start ecosystem.config.yml",
     "pm2stop": "pm2 stop ecosystem.config.yml",
@@ -31,19 +30,13 @@
   },
   "homepage": "https://gitlab.com/BrynAlt/safire#readme",
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-angular": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
-    "@commitlint/prompt": "^13.1.0",
     "@types/chart.js": "^2.9.34",
     "@types/common-tags": "^1.8.1",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.9.6",
-    "@types/ws": "^7.4.7",
+    "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
@@ -73,7 +66,7 @@
     "eslint-plugin-yml": "^0.10.1",
     "husky": "^7.0.2",
     "jest": "^27.2.1",
-    "jest-junit": "^12.3.0",
+    "jest-junit": "^13.0.0",
     "pm2": "^5.1.1",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.5",
@@ -102,16 +95,6 @@
   },
   "engines": {
     "node": ">=14.16.0"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-angular"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/prompt"
-    }
   },
   "husky": {
     "hooks": {
