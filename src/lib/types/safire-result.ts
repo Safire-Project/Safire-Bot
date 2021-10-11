@@ -1,29 +1,36 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import { MessageEmbed } from 'discord.js';
-
+import { MessageEmbed, MessageOptions, MessagePayload } from 'discord.js';
 export default class SafireResult {
   public readonly message: string;
 
-  public readonly embed: MessageEmbed;
+  public readonly payload: MessagePayload | MessageOptions;
 
   public readonly options: SafireResultOptions;
 
   constructor(
     resultMessage: string,
-    outputEmbed?: MessageEmbed,
+    outputPackage?: MessageEmbed | MessagePayload | MessageOptions,
     resultOptions?: SafireResultOptions,
   ) {
-    this.message =
-      resultMessage ?? outputEmbed?.description ?? 'no result message given';
-    this.embed =
-      outputEmbed ?? new MessageEmbed({ description: resultMessage });
-    this.options = resultOptions ?? { printResult: false, sendEmbed: false };
+    this.message = resultMessage ?? 'no result message given';
+    this.message = resultMessage
+      ? resultMessage
+      : outputPackage instanceof MessageEmbed && outputPackage.description
+      ? outputPackage.description
+      : 'no result message given';
+    this.payload =
+      outputPackage instanceof MessageEmbed
+        ? { embeds: [outputPackage] }
+        : outputPackage ?? { content: resultMessage };
+    this.options = resultOptions ?? { printResult: false, sendPayload: false };
+
+    console.log(this.payload);
   }
 }
 
 export type SafireResultOptions = {
   readonly printResult?: boolean;
-  readonly sendEmbed?: boolean;
+  readonly sendPayload?: boolean;
 };

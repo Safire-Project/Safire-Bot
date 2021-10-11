@@ -86,7 +86,7 @@ export default class AboutCommand extends SafireCommand {
         ),
       {
         printResult: true,
-        sendEmbed: true,
+        sendPayload: true,
       },
     );
   }

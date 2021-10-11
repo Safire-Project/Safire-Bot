@@ -33,9 +33,7 @@ export default class CommandSuccessFeedbackEvent extends Listener<
         : !result.options.printResult
         ? message
         : message.reply(
-            result.options.sendEmbed
-              ? { embeds: [result.embed] }
-              : result.message,
+            result.options.sendPayload ? result.payload : result.message,
           )
       : message.reply(result);
   }
