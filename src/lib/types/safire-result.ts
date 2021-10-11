@@ -25,8 +25,6 @@ export default class SafireResult {
         ? { embeds: [outputPackage] }
         : outputPackage ?? { content: resultMessage };
     this.options = resultOptions ?? { printResult: false, sendPayload: false };
-
-    console.log(this.payload);
   }
 }
 

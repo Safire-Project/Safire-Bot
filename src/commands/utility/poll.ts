@@ -14,6 +14,7 @@ import {
   User,
 } from 'discord.js';
 import { Args, PieceContext } from '@sapphire/framework';
+import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 import { TOPICS, EVENTS } from '../../lib/logger';
 
 import SafireCommand from '../../lib/types/safire-command';
@@ -237,40 +238,83 @@ export default class PollCommand extends SafireCommand {
                               })),
                           )
                           .addField(
-                            'test',
-                            encodeURI(
-                              `https://quickchart.io/chart?c= ${JSON.stringify({
-                                type: 'bar',
-                                labels: [
-                                  await this.getPollQuestion(commandArguments),
-                                  'yo',
-                                  'hi',
-                                  'whats good',
-                                ],
-                                data: {
-                                  datasets: cachedPollData.map(
-                                    (_value, key) => ({
-                                      label: key,
-                                      data: [20, 30, 40],
-                                    }),
-                                  ),
-                                },
-                              })}`,
-                            ),
-                          )
-                          .addField(
-                            'plain test',
-                            `https://quickchart.io/chart?c= ${JSON.stringify({
+                            'ChartJS Parameters',
+                            `${JSON.stringify({
                               type: 'bar',
-                              labels: [
-                                await this.getPollQuestion(commandArguments),
-                              ],
-                              data: cachedPollData.map((_value, key) => ({
-                                label: key,
-                                data: [50],
-                              })),
+                              data: {
+                                labels: [...cachedPollData.keys()],
+                                datasets: [
+                                  {
+                                    data: cachedPollData.map(
+                                      (pollData) => pollData.count,
+                                    ),
+                                    backgroundColor: [
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)',
+                                      'rgba(255, 205, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)',
+                                      'rgba(201, 203, 207, 0.2)',
+                                    ],
+                                    borderColor: [
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)',
+                                      'rgb(201, 203, 207)',
+                                    ],
+                                  },
+                                ],
+                              },
                             })}`,
+                          )
+                          .setImage('attachment://image.png'),
+                      ],
+                      files: [
+                        {
+                          name: 'image.png',
+                          attachment: new ChartJSNodeCanvas({
+                            width: 400,
+                            height: 400,
+                          }).renderToStream(
+                            {
+                              type: 'bar',
+                              data: {
+                                labels: [...cachedPollData.keys()],
+                                datasets: [
+                                  {
+                                    data: cachedPollData.map(
+                                      (pollData) => pollData.count,
+                                    ),
+                                    backgroundColor: [
+                                      'rgba(255, 99, 132, 0.8)',
+                                      'rgba(255, 159, 64, 0.8)',
+                                      'rgba(255, 205, 86, 0.8)',
+                                      'rgba(75, 192, 192, 0.8)',
+                                      'rgba(54, 162, 235, 0.8)',
+                                      'rgba(153, 102, 255, 0.8)',
+                                      'rgba(201, 203, 207, 0.8)',
+                                    ],
+                                    borderColor: [
+                                      'rgb(255, 99, 132)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(153, 102, 255)',
+                                      'rgb(201, 203, 207)',
+                                    ],
+                                    borderWidth: 8,
+                                  },
+                                ],
+                              },
+                            },
+                            'image/png',
                           ),
+                        },
                       ],
                     })
                     .then(() =>
