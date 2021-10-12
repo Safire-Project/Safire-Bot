@@ -96,9 +96,9 @@ compile-typescript:
     - tags
 
 docker-build:
-  image: docker:20.10.8
+  image: docker:20.10.9
   services:
-    - docker:20.10.8-dind
+    - docker:20.10.9-dind
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -121,10 +121,10 @@ upload-package:
     - tags
 
 staging-test:
-  image: docker:20.10.8
+  image: docker:20.10.9
   stage: staging
   services:
-    - docker:20.10.8-dind
+    - docker:20.10.9-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
