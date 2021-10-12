@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-image: node:16.10.0-alpine3.14
+image: node:16.11.0-alpine3.14
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
@@ -30,11 +30,17 @@ before_script:
   - echo "Project name = $CI_PROJECT_NAME"
   - echo "Build ref = $CI_BUILD_REF_NAME"
 
+initialize-alpine:
+  stage: init
+  script:
+    - apk add --virtual build-dependencies build-base gcc python py3-pip
+
 initialize-npm:
   stage: init
   script:
     - npm ci || NODE_ENV=development npm install
-  dependencies: []
+  needs: 
+    - initialize-alpine
 
 eslint:
   stage: lint
