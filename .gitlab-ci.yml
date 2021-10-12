@@ -33,7 +33,7 @@ before_script:
 initialize-alpine:
   stage: init
   script:
-    - apk add --virtual build-dependencies build-base gcc python py3-pip
+    - apk add --virtual build-dependencies build-base gcc python3 py3-pip
 
 initialize-npm:
   stage: init
