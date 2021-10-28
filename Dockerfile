@@ -7,8 +7,6 @@ WORKDIR /opt/build/safire
 
 ENV NODE_ENV="development"
 
-RUN apk update
-
 # Node Canvas Dependencies
 RUN apk add --no-cache alpine-sdk build-base gcc python3 py3-pip pkgconfig pkgconf g++ cairo-dev jpeg-dev pango-dev giflib-dev
 
