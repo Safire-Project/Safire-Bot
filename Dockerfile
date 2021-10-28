@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-FROM node:16.11.0-alpine3.14
+FROM node:17.0.1-alpine3.14
 
 WORKDIR /opt/build/safire
 
