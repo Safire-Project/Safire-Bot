@@ -17,7 +17,7 @@ export default class PlayCommand extends SafireCommand {
     });
   }
 
-  async run(message: Message): Promise<SafireResult> {
+  async messageRun(message: Message): Promise<SafireResult> {
     return new SafireResult(
       `Added ${message.content} to the queue.`,
       new MessageEmbed()

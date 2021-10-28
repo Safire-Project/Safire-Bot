@@ -18,7 +18,7 @@ export default class AboutCommand extends SafireCommand {
     });
   }
 
-  async run(): Promise<SafireResult> {
+  async messageRun(): Promise<SafireResult> {
     return new SafireResult(
       'Printed Safire Details',
       new MessageEmbed()

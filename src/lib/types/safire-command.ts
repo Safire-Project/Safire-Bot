@@ -27,7 +27,7 @@ export default abstract class SafireCommand extends Command {
     this.fullCategory = paths.slice(paths.indexOf('commands') + 1, -1);
   }
 
-  public abstract run(
+  public abstract messageRun(
     message: Message,
     commandArguments: Args,
   ): Promise<SafireResult>;

@@ -1,6 +1,15 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
+// TODO Change buttons to messageID-answerIndex-multipoll-barType serials so that we do zero caching,
+// ? Consider postgres for entire bot here
+// *CustomIDs limited to 100 characters - So we need to programmatically ensure that limit is not overcome -> good reason to use postgres
+// TODO Move handler logic to listeners/Polling/poll-button-interaction.ts
+// TODO Allow up to 25 options
+// TODO Add flag for different graph types
+// TODO Add flag for timeout to remove buttons/close poll
+// TODO Add flag to allow for multiple answers
+
 import {
   MessageEmbed,
   MessageButton,
@@ -12,6 +21,7 @@ import {
   MessageComponentInteraction,
   Snowflake,
   User,
+  EmbedFieldData,
 } from 'discord.js';
 import { Args, PieceContext } from '@sapphire/framework';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
@@ -19,6 +29,8 @@ import { TOPICS, EVENTS } from '../../lib/logger';
 
 import SafireCommand from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
+import client from '../../bot';
+import { backgroundPlugin } from '../../lib/chartjs-plugin/chartjs-plugin-background';
 
 export default class PollCommand extends SafireCommand {
   public readonly defaultOptions = {
@@ -38,6 +50,8 @@ export default class PollCommand extends SafireCommand {
       { name: 'Yes', value: '0' },
       { name: 'No', value: '0' },
     ],
+    chartBarBackgrounds: ['rgba(0,204,0,0.2)', 'rgba(255,0,0,0.2)'],
+    chartBarBorders: ['rgb(0,204,0)', 'rgb(255,0,0)'],
   };
 
   private readonly timeout = 360_000_000;
@@ -46,14 +60,7 @@ export default class PollCommand extends SafireCommand {
 
   private readonly pollCache = new Collection<
     string,
-    Collection<
-      string,
-      {
-        readonly count: number;
-        // eslint-disable-next-line functional/prefer-readonly-type
-        readonly voters: Array<User>;
-      }
-    >
+    Collection<string, ReadonlyArray<User>>
   >();
 
   constructor(context: PieceContext) {
@@ -67,7 +74,7 @@ export default class PollCommand extends SafireCommand {
     });
   }
 
-  public readonly run = async function run(
+  public readonly messageRun = async function runCommandOnMessage(
     this: PollCommand,
     message: Message,
     commandArguments: Args,
@@ -82,17 +89,10 @@ export default class PollCommand extends SafireCommand {
           .then(async (pollQuestionString) =>
             this.pollCache.set(
               `${pollQuestionString}-${message.id}`,
-              // eslint-disable-next-line total-functions/no-unsafe-readonly-mutable-assignment
               new Collection(
                 parsedAnswers.length > 0
-                  ? parsedAnswers.map((answer) => [
-                      answer,
-                      { count: 0, voters: [] },
-                    ])
-                  : this.defaultOptions.fields.map((field) => [
-                      field.name,
-                      { count: 0, voters: [] },
-                    ]),
+                  ? parsedAnswers.map((answer) => [answer, []])
+                  : this.defaultOptions.fields.map((field) => [field.name, []]),
               ),
             ),
           )
@@ -170,7 +170,6 @@ export default class PollCommand extends SafireCommand {
   };
 
   private readonly applyCollector =
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     async function applyMessageComponentInteractionCollector(
       this: PollCommand,
       message: Message,
@@ -189,140 +188,34 @@ export default class PollCommand extends SafireCommand {
               idle: this.timeout,
             })
             .on('collect', async (interaction) => {
-              const voters =
-                cachedPollData.get(interaction.customId)?.voters ?? [];
+              const voters = cachedPollData.get(interaction.customId) ?? [];
               const oldKey = cachedPollData.findKey((pollData) =>
-                pollData.voters.includes(interaction.user),
+                pollData.includes(interaction.user),
               );
               const oldData = cachedPollData.get(
                 oldKey ?? cachedPollData.firstKey() ?? '',
               );
-              return !(interaction.channel instanceof TextChannel) ||
-                !message.embeds[0] ||
-                !(interaction.message instanceof Message)
-                ? Promise.reject(new Error('cannot find original poll embed.'))
-                : voters.includes(interaction.user)
-                ? interaction.reply({
-                    content: 'You already voted this way!',
-                    ephemeral: true,
-                  })
-                : interaction.message
-                    .edit({
-                      embeds: [
-                        new MessageEmbed(message.embeds[0])
-                          .spliceFields(0, message.embeds[0].fields.length)
-                          .addFields(
-                            cachedPollData
-                              .set(oldKey ?? cachedPollData.firstKey() ?? '', {
-                                count: (oldData?.count ?? 0) - (oldKey ? 1 : 0),
-                                voters:
-                                  oldData?.voters.filter((voter) =>
-                                    oldKey ? voter !== interaction.user : true,
-                                  ) ?? [],
-                              })
-                              .set(interaction.customId, {
-                                count:
-                                  (cachedPollData.get(interaction.customId)
-                                    ?.count ?? 0) + 1,
-                                voters: [...voters, interaction.user] ?? [],
-                              })
-                              .map((value, key) => ({
-                                name: `${key} - ${value.count}`,
-                                value: `${
-                                  value.voters.length === 0
-                                    ? 'No Voters Yet.'
-                                    : value.voters
-                                        .toLocaleString()
-                                        .slice(0, 1500 / cachedPollData.size)
-                                }`,
-                              })),
-                          )
-                          .addField(
-                            'ChartJS Parameters',
-                            `${JSON.stringify({
-                              type: 'bar',
-                              data: {
-                                labels: [...cachedPollData.keys()],
-                                datasets: [
-                                  {
-                                    data: cachedPollData.map(
-                                      (pollData) => pollData.count,
-                                    ),
-                                    backgroundColor: [
-                                      'rgba(255, 99, 132, 0.2)',
-                                      'rgba(255, 159, 64, 0.2)',
-                                      'rgba(255, 205, 86, 0.2)',
-                                      'rgba(75, 192, 192, 0.2)',
-                                      'rgba(54, 162, 235, 0.2)',
-                                      'rgba(153, 102, 255, 0.2)',
-                                      'rgba(201, 203, 207, 0.2)',
-                                    ],
-                                    borderColor: [
-                                      'rgb(255, 99, 132)',
-                                      'rgb(255, 159, 64)',
-                                      'rgb(255, 205, 86)',
-                                      'rgb(75, 192, 192)',
-                                      'rgb(54, 162, 235)',
-                                      'rgb(153, 102, 255)',
-                                      'rgb(201, 203, 207)',
-                                    ],
-                                  },
-                                ],
-                              },
-                            })}`,
-                          )
-                          .setImage('attachment://image.png'),
-                      ],
-                      files: [
-                        {
-                          name: 'image.png',
-                          attachment: new ChartJSNodeCanvas({
-                            width: 400,
-                            height: 400,
-                          }).renderToStream(
-                            {
-                              type: 'bar',
-                              data: {
-                                labels: [...cachedPollData.keys()],
-                                datasets: [
-                                  {
-                                    data: cachedPollData.map(
-                                      (pollData) => pollData.count,
-                                    ),
-                                    backgroundColor: [
-                                      'rgba(255, 99, 132, 0.8)',
-                                      'rgba(255, 159, 64, 0.8)',
-                                      'rgba(255, 205, 86, 0.8)',
-                                      'rgba(75, 192, 192, 0.8)',
-                                      'rgba(54, 162, 235, 0.8)',
-                                      'rgba(153, 102, 255, 0.8)',
-                                      'rgba(201, 203, 207, 0.8)',
-                                    ],
-                                    borderColor: [
-                                      'rgb(255, 99, 132)',
-                                      'rgb(255, 159, 64)',
-                                      'rgb(255, 205, 86)',
-                                      'rgb(75, 192, 192)',
-                                      'rgb(54, 162, 235)',
-                                      'rgb(153, 102, 255)',
-                                      'rgb(201, 203, 207)',
-                                    ],
-                                    borderWidth: 8,
-                                  },
-                                ],
-                              },
-                            },
-                            'image/png',
-                          ),
-                        },
-                      ],
-                    })
-                    .then(() =>
-                      interaction.reply({
-                        content: `You voted for ${interaction.customId}!`,
-                        ephemeral: true,
-                      }),
-                    );
+              const organizedPollData = cachedPollData
+                .clone()
+                .set(
+                  oldKey ?? cachedPollData.firstKey() ?? '',
+                  oldData?.filter((voter) =>
+                    oldKey ? voter !== interaction.user : true,
+                  ) ?? [],
+                )
+                .set(interaction.customId, [...voters, interaction.user] ?? []);
+              const organizedEmbed = this.embedFromPollData(
+                message,
+                organizedPollData,
+              );
+              const imageCache = await this.drawNewPoll(
+                organizedPollData,
+                commandArguments,
+              );
+              const finalEmbed = organizedEmbed.setImage(
+                imageCache ? imageCache.attachments.first()?.url ?? '' : '',
+              );
+              return this.sendFeedback(interaction, voters, finalEmbed);
             })
             .on('end', (interactionCollector) =>
               this.handlePollCloser(
@@ -357,4 +250,146 @@ export default class PollCommand extends SafireCommand {
           `${processedString}${processedString.includes('?') ? '' : '?'}`,
       );
   };
+
+  private readonly embedFromPollData =
+    function generateEmbedFromOrganizedPollData(
+      this: PollCommand,
+      message: Message,
+      organizedPollData: Collection<string, readonly User[]>,
+    ): MessageEmbed {
+      return new MessageEmbed(message.embeds[0])
+        .spliceFields(0, message.embeds[0]?.fields.length ?? 0)
+        .addFields(this.answerFieldsGenerator(organizedPollData));
+    };
+
+  private readonly sendFeedback = function sendEmbedOrFeedbackToOriginalChannel(
+    interaction: MessageComponentInteraction,
+    voters: readonly User[],
+    finalEmbed: MessageEmbed,
+  ): void | PromiseLike<void> {
+    return !(interaction.message instanceof Message)
+      ? Promise.reject(new Error('cannot find original poll embed.'))
+      : voters.includes(interaction.user)
+      ? interaction.reply({
+          content: 'You already voted this way!',
+          ephemeral: true,
+        })
+      : interaction.message
+          .edit({
+            embeds: [finalEmbed],
+          })
+          .then(() =>
+            interaction.reply({
+              content: `You voted for ${interaction.customId}!`,
+              ephemeral: true,
+            }),
+          );
+  };
+
+  private readonly drawNewPoll = async function generateChartGraphics(
+    this: PollCommand,
+    organizedPollData: Collection<string, readonly User[]>,
+    commandArguments: Args,
+  ): Promise<Message | undefined> {
+    const imageCacheChannel = await client.channels.fetch(
+      process.env['imageCacheChannel'] ?? '',
+    );
+    return imageCacheChannel && imageCacheChannel instanceof TextChannel
+      ? imageCacheChannel.send({
+          files: [
+            {
+              name: 'image.png',
+              attachment: new ChartJSNodeCanvas({
+                width: 1280,
+                height: 720,
+                plugins: {
+                  modern: [backgroundPlugin],
+                },
+              }).renderToStream(
+                {
+                  type: 'bar',
+                  data: {
+                    labels: [...organizedPollData.keys()],
+                    datasets: [
+                      {
+                        data: organizedPollData.map(
+                          (pollData) => pollData.length,
+                        ),
+                        label: new Date().toLocaleTimeString(),
+                        backgroundColor:
+                          organizedPollData.size === 2
+                            ? this.defaultOptions.chartBarBackgrounds
+                            : [...organizedPollData.keys()].map(
+                                (_value, index, array) =>
+                                  `hsl(${
+                                    index * (320 / (array.length - 1))
+                                  }, 80%, 25%)`,
+                              ),
+                        borderColor:
+                          organizedPollData.size === 2
+                            ? this.defaultOptions.chartBarBorders
+                            : [...organizedPollData.keys()].map(
+                                (_value, index, array) =>
+                                  `hsl(${
+                                    index * (320 / (array.length - 1))
+                                  }, 100%, 50%)`,
+                              ),
+                        borderWidth: 8,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      yAxes: {
+                        ticks: { stepSize: 1, font: { size: 40 } },
+                      },
+                      xAxes: {
+                        ticks: { font: { size: 50 } },
+                      },
+                    },
+                    plugins: {
+                      title: {
+                        font: { size: 60 },
+                        fullSize: true,
+                        color: 'white',
+                        padding: 20,
+                        display: true,
+                        text: await this.getPollQuestion(commandArguments),
+                      },
+                      legend: {
+                        position: 'bottom',
+                        labels: { boxHeight: 0, boxWidth: 0 },
+                      },
+                      background: {
+                        chartBackgroundColor: 'black',
+                      },
+                    },
+                  },
+                },
+                'image/png',
+              ),
+            },
+          ],
+        })
+      : undefined;
+  };
+
+  private answerFieldsGenerator(
+    organizedPollData: Collection<string, readonly User[]>,
+    // eslint-disable-next-line functional/prefer-readonly-type
+  ): EmbedFieldData[] {
+    return organizedPollData.map((value, key) => ({
+      name: `${key} - ${value.length}`,
+      value: `${this.formatAnswerField(value, organizedPollData)}`,
+    }));
+  }
+
+  private formatAnswerField(
+    value: readonly User[],
+    organizedPollData: Collection<string, readonly User[]>,
+  ): string {
+    return value.length === 0
+      ? 'No Voters Yet.'
+      : value.toLocaleString().slice(0, 1500 / organizedPollData.size);
+  }
 }

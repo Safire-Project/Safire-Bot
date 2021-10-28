@@ -17,7 +17,10 @@ export default class HelpCommand extends SafireCommand {
     });
   }
 
-  async run(message: Message, commandArguments: Args): Promise<SafireResult> {
+  async messageRun(
+    message: Message,
+    commandArguments: Args,
+  ): Promise<SafireResult> {
     return (await commandArguments.start().peekResult('string')).success
       ? commandArguments
           .peek('string')

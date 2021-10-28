@@ -17,7 +17,7 @@ export default class PingCommand extends SafireCommand {
     });
   }
 
-  async run(message: Message): Promise<SafireResult> {
+  async messageRun(message: Message): Promise<SafireResult> {
     return message.channel
       .send('Ping?')
       .then((pingMessage) => pingMessage.delete())
