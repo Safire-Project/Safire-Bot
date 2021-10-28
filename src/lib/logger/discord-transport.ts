@@ -9,7 +9,7 @@ import {
   WebhookClientOptions,
 } from 'discord.js';
 import Transport, { TransportStreamOptions } from 'winston-transport';
-import { APIMessage } from 'discord-api-types';
+import { APIMessage } from 'discord-api-types-from-current-djs';
 import { COLORS } from '../types/colors';
 
 /**
@@ -47,17 +47,14 @@ export default class DiscordTransport extends Transport {
   };
 
   /** Webhook obtained from Discord */
-  private readonly webhook: WebhookClient | undefined;
+  private readonly webhook: WebhookClient;
 
   public constructor(options: DiscordTransportOptions) {
     super(options);
-    this.webhook =
-      options.discord === false
-        ? undefined
-        : new WebhookClient(
-            options.webhookClientData,
-            options.webhookClientOptions,
-          );
+    this.webhook = new WebhookClient(
+      options.webhookClientData,
+      options.webhookClientOptions,
+    );
   }
 
   /**
@@ -70,6 +67,7 @@ export default class DiscordTransport extends Transport {
     // eslint-disable-next-line functional/no-return-void
     callback: () => void,
   ): Promise<void | APIMessage> {
+    console.log('got here');
     return !this.webhook
       ? callback()
       : this.webhook
