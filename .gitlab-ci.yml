@@ -49,13 +49,6 @@ eslint:
     - initialize-npm
   dependencies: []
 
-sast:
-  stage: test
-  needs: []
-
-semgrep-sast:
-  cache: {}
-
 include:
   - template: Security/SAST.gitlab-ci.yml
 
