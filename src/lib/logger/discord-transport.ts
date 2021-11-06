@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import os from 'os'; // eslint-disable-line unicorn/prefer-node-protocol
+// eslint-disable-next-line node/no-missing-import
+import os from 'node:os';
 import {
   WebhookClient,
   MessageEmbed,
@@ -67,7 +68,6 @@ export default class DiscordTransport extends Transport {
     // eslint-disable-next-line functional/no-return-void
     callback: () => void,
   ): Promise<void | APIMessage> {
-    console.log('got here');
     return !this.webhook
       ? callback()
       : this.webhook
