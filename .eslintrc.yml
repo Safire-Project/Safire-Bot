@@ -46,7 +46,6 @@ overrides:
       - plugin:@typescript-eslint/recommended
       - plugin:@typescript-eslint/recommended-requiring-type-checking
       - plugin:import/typescript
-      - plugin:total-functions/recommended
       - eslint:recommended
       - plugin:eslint-comments/recommended
       - plugin:import/errors
@@ -78,7 +77,6 @@ overrides:
         - ./__tests__/tsconfig.json
     plugins:
       - '@typescript-eslint'
-      - total-functions
       - eslint-comments
       - functional
       - header
@@ -140,3 +138,4 @@ overrides:
         - - ' SPDX-License-Identifier: MIT OR CC0-1.0'
           - 'Bryn (Safire Project) '
         - 2
+
