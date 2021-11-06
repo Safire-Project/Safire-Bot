@@ -58,12 +58,7 @@ export const logger = createLogger({
     process.env['NO_DISCORD']
       ? new NullTransport({})
       : new DiscordTransport({
-          webhookClientData: {
-            id: process.env['webhookID'] ?? '',
-            token: process.env['webhookToken'] ?? '',
-            url: process.env['webhookURL'] ?? '',
-          },
-          webhookClientOptions: {},
+          webhookUrl: process.env['webhookURL'] ?? '',
           level: 'info',
         }),
     new transports.File({

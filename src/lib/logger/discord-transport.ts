@@ -3,13 +3,8 @@ Bryn (Safire Project) */
 
 // eslint-disable-next-line node/no-missing-import
 import os from 'node:os';
-import {
-  WebhookClient,
-  MessageEmbed,
-  WebhookClientData,
-  WebhookClientOptions,
-} from 'discord.js';
 import Transport, { TransportStreamOptions } from 'winston-transport';
+import { Webhook, MessageBuilder } from 'webhook-discord';
 import { COLORS } from '../types/colors';
 
 /**
@@ -17,8 +12,7 @@ import { COLORS } from '../types/colors';
  */
 type DiscordTransportOptions = TransportStreamOptions & {
   readonly discord?: boolean;
-  readonly webhookClientData: WebhookClientData;
-  readonly webhookClientOptions: WebhookClientOptions | undefined;
+  readonly webhookUrl: string;
 };
 
 type LoggerElements = Record<string, unknown> & {
@@ -47,14 +41,11 @@ export default class DiscordTransport extends Transport {
   };
 
   /** Webhook obtained from Discord */
-  private readonly webhook: WebhookClient;
+  private readonly webhook: Webhook;
 
   public constructor(options: DiscordTransportOptions) {
     super(options);
-    this.webhook = new WebhookClient(
-      options.webhookClientData,
-      options.webhookClientOptions,
-    );
+    this.webhook = new Webhook(options.webhookUrl);
   }
 
   /**
@@ -68,16 +59,21 @@ export default class DiscordTransport extends Transport {
     callback: () => void,
     // eslint-disable-next-line functional/no-return-void
   ): void {
-    void this.webhook.send({
-      embeds: [
-        new MessageEmbed()
+    void this.webhook
+      .send(
+        new MessageBuilder()
+          .setName('Safire')
           .setTitle(info.level.toUpperCase())
           .setAuthor(info.label)
           .setDescription(info.message)
-          .setColor(DiscordTransport.colorCodes[info.level] ?? COLORS.DEFAULT)
+          .setColor(
+            `#${(
+              DiscordTransport.colorCodes[info.level] ?? COLORS.DEFAULT
+            ).toString(16)}`,
+          )
           .addField('Host', os.hostname()),
-      ],
-    });
+      )
+      .catch((error) => console.error(error));
     return callback();
   }
 }
