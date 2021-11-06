@@ -10,7 +10,6 @@ import {
   WebhookClientOptions,
 } from 'discord.js';
 import Transport, { TransportStreamOptions } from 'winston-transport';
-import { APIMessage } from 'discord-api-types-from-current-djs';
 import { COLORS } from '../types/colors';
 
 /**
@@ -63,26 +62,22 @@ export default class DiscordTransport extends Transport {
    * @param info - Log message from winston
    * @param callback - Callback to winston to complete the log
    */
-  public async log(
+  public log(
     info: LoggerElements,
     // eslint-disable-next-line functional/no-return-void
     callback: () => void,
-  ): Promise<void | APIMessage> {
-    return !this.webhook
-      ? callback()
-      : this.webhook
-          .send({
-            embeds: [
-              new MessageEmbed()
-                .setTitle(info.level.toUpperCase())
-                .setAuthor(info.label)
-                .setDescription(info.message)
-                .setColor(
-                  DiscordTransport.colorCodes[info.level] ?? COLORS.DEFAULT,
-                )
-                .addField('Host', os.hostname()),
-            ],
-          })
-          .finally(callback);
+    // eslint-disable-next-line functional/no-return-void
+  ): void {
+    void this.webhook.send({
+      embeds: [
+        new MessageEmbed()
+          .setTitle(info.level.toUpperCase())
+          .setAuthor(info.label)
+          .setDescription(info.message)
+          .setColor(DiscordTransport.colorCodes[info.level] ?? COLORS.DEFAULT)
+          .addField('Host', os.hostname()),
+      ],
+    });
+    return callback();
   }
 }
