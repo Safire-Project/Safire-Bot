@@ -18,7 +18,6 @@ export default class MessageTokenFilterEvent extends Listener<
   async run(message: Message): Promise<Message | undefined | void> {
     const matches = /([\w-]+={0,2})(?:\.[\w-]+={0,2}){2}/.exec(message.content);
     return !matches ||
-      // eslint-disable-next-line total-functions/no-unsafe-readonly-mutable-assignment
       BigInt(Buffer.from(matches[1] ? matches[1] : '', 'base64').toString()) ===
         0n
       ? undefined

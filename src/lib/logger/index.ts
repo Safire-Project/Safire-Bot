@@ -1,9 +1,6 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-/* SPDX-License-Identifier: MIT OR CC0-1.0
-Bryn (Safire Project) */
-
 import { config, createLogger, format, Logform, transports } from 'winston';
 import DiscordTransport from './discord-transport';
 import { EVENTS as EVENTS_ENUM } from './events';
@@ -37,7 +34,7 @@ export const logger = createLogger({
             readonly topic?: string;
           } = info;
           return `\u001B[7m${level}\u001B[0m ${
-            timestamp as string // eslint-disable-line total-functions/no-unsafe-type-assertion
+            timestamp as string
           } from \u001B[2m\u001B[36m${label ?? ''}\u001B[0m for ${
             event ?? 'NO EVENT GIVEN'
           } in ${topic ?? 'NO TOPIC GIVEN'} ⇒ ${message} ${
@@ -61,7 +58,6 @@ export const logger = createLogger({
     process.env['NO_DISCORD']
       ? new NullTransport({})
       : new DiscordTransport({
-          // eslint-disable-next-line total-functions/no-unsafe-type-assertion
           webhookClientData: {
             id: process.env['webhookID'] ?? '',
             token: process.env['webhookToken'] ?? '',
