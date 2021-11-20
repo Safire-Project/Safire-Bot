@@ -52,14 +52,14 @@ overrides:
       - plugin:import/warnings
       - plugin:jest/recommended
       - plugin:jest-formatting/recommended
-      - plugin:promise/recommended
+      #- plugin:promise/recommended
       - plugin:unicorn/recommended
       - plugin:node/recommended
       - plugin:functional/recommended
       - plugin:functional/stylitic
       - plugin:typescript-sort-keys/recommended
       - plugin:eslint-comments/recommended
-      - plugin:sonarjs/recommended
+      #- plugin:sonarjs/recommended
       # Airbnb opinions should be near bottom
       - airbnb-typescript/base
       # Replacement rules for Functional Programming
@@ -86,10 +86,10 @@ overrides:
       - node
       - no-constructor-bind
       - no-secrets
-      - promise
+      #- promise
       - prefer-arrow
       - regexp
-      - sonarjs
+      #- sonarjs
       - typescript-sort-keys
       - unicorn
       - write-good-comments
