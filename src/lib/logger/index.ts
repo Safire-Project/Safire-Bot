@@ -74,7 +74,7 @@ export const logger = createLogger({
         : 'help',
     }),
   ],
-  exitOnError: false,
+  exitOnError: true,
 });
 
 export const EVENTS = EVENTS_ENUM;

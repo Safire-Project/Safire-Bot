@@ -5,7 +5,8 @@ Bryn (Safire Project) */
 import { sep } from 'node:path';
 import { Args, PieceContext } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
-import SafireCommand from '../../lib/types/safire-command';
+import { right } from 'fp-ts/lib/Either';
+import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class HelpCommand extends SafireCommand {
@@ -20,7 +21,7 @@ export default class HelpCommand extends SafireCommand {
   async messageRun(
     message: Message,
     commandArguments: Args,
-  ): Promise<SafireResult> {
+  ): Promise<SafireEither> {
     return (await commandArguments.start().peekResult('string')).success
       ? commandArguments
           .peek('string')
@@ -29,8 +30,8 @@ export default class HelpCommand extends SafireCommand {
               this.container.stores.get('commands').get(commandKey) ??
               Promise.reject(new Error(`There is no command ${commandKey}`)),
           )
-          .then(
-            (command) =>
+          .then((command) =>
+            right(
               new SafireResult(
                 `Name: ${command.name} - Description: ${
                   command.description
@@ -87,13 +88,14 @@ export default class HelpCommand extends SafireCommand {
                   sendPayload: true,
                 },
               ),
+            ),
           )
       : Promise.all(
           this.store
             .filter((piece): piece is SafireCommand => 'preconditions' in piece)
             .map((command) => command.preconditions.run(message, command)),
-        ).then(
-          async (printableCommands) =>
+        ).then(async (printableCommands) =>
+          right(
             new SafireResult(
               this.store.keys().toLocaleString(),
               new MessageEmbed()
@@ -139,6 +141,7 @@ export default class HelpCommand extends SafireCommand {
                 sendPayload: true,
               },
             ),
+          ),
         );
   }
 }

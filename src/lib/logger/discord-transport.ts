@@ -65,7 +65,7 @@ export default class DiscordTransport extends Transport {
           .setName('Safire')
           .setTitle(info.level.toUpperCase())
           .setAuthor(info.label)
-          .setDescription(info.message)
+          .setDescription(info.message ?? '')
           .setColor(
             `#${(
               DiscordTransport.colorCodes[info.level] ?? COLORS.DEFAULT

@@ -8,10 +8,17 @@ import {
   Args,
   CommandOptions,
   PieceContext,
+  CommandSuccessPayload,
 } from '@sapphire/framework';
 import { Message } from 'discord.js';
+import { Either } from 'fp-ts/lib/Either';
 import SafireResult from './safire-result';
 
+export type SafireEither = Either<Error, SafireResult>;
+
+export type SafireCommandSuccessPayload = CommandSuccessPayload & {
+  readonly result: Awaited<Promise<SafireEither>>;
+};
 export default abstract class SafireCommand extends Command {
   /**
    * The full category for the command
@@ -20,7 +27,7 @@ export default abstract class SafireCommand extends Command {
    */
   public readonly fullCategory: readonly string[];
 
-  public constructor(context: PieceContext, options: CommandOptions) {
+  public constructor (context: PieceContext, options: CommandOptions) {
     super(context, options);
 
     const paths = context.path.split(sep);
@@ -30,5 +37,5 @@ export default abstract class SafireCommand extends Command {
   public abstract messageRun(
     message: Message,
     commandArguments: Args,
-  ): Promise<SafireResult>;
+  ): Promise<SafireEither> | SafireEither;
 }

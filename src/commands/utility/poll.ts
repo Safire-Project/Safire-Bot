@@ -25,9 +25,10 @@ import {
 } from 'discord.js';
 import { Args, PieceContext } from '@sapphire/framework';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { right } from 'fp-ts/lib/Either';
 import { TOPICS, EVENTS } from '../../lib/logger';
 
-import SafireCommand from '../../lib/types/safire-command';
+import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 import client from '../../bot';
 import { backgroundPlugin } from '../../lib/chartjs-plugin/chartjs-plugin-background';
@@ -78,7 +79,7 @@ export default class PollCommand extends SafireCommand {
     this: PollCommand,
     message: Message,
     commandArguments: Args,
-  ): Promise<SafireResult> {
+  ): Promise<SafireEither> {
     const parsedAnswers = (await commandArguments.start().rest('string'))
       .split(this.delimiter)
       .slice(1)
@@ -133,9 +134,8 @@ export default class PollCommand extends SafireCommand {
             this.applyCollector(pollMessage, commandArguments, message.id),
           )
           .then(() => this.getPollQuestion(commandArguments))
-          .then(
-            (pollQuestion) =>
-              new SafireResult(`Poll Published: ${pollQuestion}`),
+          .then((pollQuestion) =>
+            right(new SafireResult(`Poll Published: ${pollQuestion}`)),
           );
   };
 

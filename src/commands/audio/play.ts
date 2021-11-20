@@ -3,7 +3,8 @@ Bryn (Safire Project) */
 
 import { PieceContext } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
-import SafireCommand from '../../lib/types/safire-command';
+import { right } from 'fp-ts/lib/Either';
+import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class PlayCommand extends SafireCommand {
@@ -17,13 +18,15 @@ export default class PlayCommand extends SafireCommand {
     });
   }
 
-  async messageRun(message: Message): Promise<SafireResult> {
-    return new SafireResult(
-      `Added ${message.content} to the queue.`,
-      new MessageEmbed()
-        .setAuthor(this.container.client.user?.username ?? 'Safire')
-        .setColor('RANDOM')
-        .setDescription(`Added to the queue.`),
+  messageRun(message: Message): SafireEither {
+    return right(
+      new SafireResult(
+        `Added ${message.content} to the queue.`,
+        new MessageEmbed()
+          .setAuthor(this.container.client.user?.username ?? 'Safire')
+          .setColor('RANDOM')
+          .setDescription(`Added to the queue.`),
+      ),
     );
   }
 }

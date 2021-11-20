@@ -1,16 +1,13 @@
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
-import {
-  CommandSuccessPayload,
-  Listener,
-  Events,
-  PieceContext,
-} from '@sapphire/framework';
+import { Listener, Events, PieceContext } from '@sapphire/framework';
 
+import { match } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/function';
 import { TOPICS, EVENTS } from '../../lib/logger/index';
+import { SafireCommandSuccessPayload } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
-
 export default class CommandSuccessLoggingEvent extends Listener<
   typeof Events.CommandSuccess
 > {
@@ -29,23 +26,39 @@ export default class CommandSuccessLoggingEvent extends Listener<
     message,
     parameters,
     result,
-  }: CommandSuccessPayload): Promise<void> {
-    return this.container.logger.info(
-      `Command: [${command.name}] - Message: [${
-        message.content
-      }] - String Args: [${
-        (await args.repeatResult('string')).value?.toString() ?? ''
-      }] - Command Prefix: [${
-        context.commandPrefix
-      }] - Parameters: [${parameters.toString()}] - Result: [${
-        typeof result !== 'string'
-          ? !(result instanceof SafireResult)
-            ? ''
-            : result.message
-          : result
-      }]`,
-      TOPICS.SAPPHIRE,
-      EVENTS.COMMAND_SUCCESS,
+  }: SafireCommandSuccessPayload): Promise<void> {
+    return pipe(
+      result,
+      match(
+        async (error: Error) =>
+          this.container.logger.error(
+            `Command: [${command.name}] - Message: [${
+              message.content
+            }] - String Args: [${
+              (await args.repeatResult('string')).value?.toString() ?? ''
+            }] - Command Prefix: [${
+              context.commandPrefix
+            }] - Parameters: [${parameters.toString()}] - User Error: [${
+              error.message
+            }]`,
+            TOPICS.SAPPHIRE,
+            EVENTS.COMMAND_ERROR,
+          ),
+        async (safireResult: SafireResult) =>
+          this.container.logger.info(
+            `Command: [${command.name}] - Message: [${
+              message.content
+            }] - String Args: [${
+              (await args.repeatResult('string')).value?.toString() ?? ''
+            }] - Command Prefix: [${
+              context.commandPrefix
+            }] - Parameters: [${parameters.toString()}] - Result: [${
+              safireResult.message
+            }]`,
+            TOPICS.SAPPHIRE,
+            EVENTS.COMMAND_SUCCESS,
+          ),
+      ),
     );
   }
 }

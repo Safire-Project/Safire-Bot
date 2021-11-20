@@ -3,7 +3,8 @@ Bryn (Safire Project) */
 
 import { PieceContext } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
-import SafireCommand from '../../lib/types/safire-command';
+import { right } from 'fp-ts/lib/Either';
+import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class PingCommand extends SafireCommand {
@@ -17,12 +18,12 @@ export default class PingCommand extends SafireCommand {
     });
   }
 
-  async messageRun(message: Message): Promise<SafireResult> {
+  async messageRun(message: Message): Promise<SafireEither> {
     return message.channel
       .send('Ping?')
       .then((pingMessage) => pingMessage.delete())
-      .then(
-        (deletedMessage) =>
+      .then((deletedMessage) =>
+        right(
           new SafireResult(
             `Pong! Bot Latency ${Math.round(
               this.container.client.ws.ping,
@@ -53,6 +54,7 @@ export default class PingCommand extends SafireCommand {
               ]),
             { printResult: true, sendPayload: true },
           ),
+        ),
       );
   }
 }

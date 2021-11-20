@@ -27,6 +27,7 @@ const client = new SapphireClient({
       { name: `${process.env['DEFAULT_PREFIX'] ?? '<@mention>'}help` },
     ],
   },
+  loadDefaultErrorListeners: false,
 });
 
 client
