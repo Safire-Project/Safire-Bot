@@ -5,6 +5,7 @@ image: node:17.0.1-alpine3.14
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
+  SAST_EXCLUDED_ANALYZERS: "semgrep"
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_VERIFY: 1
   DOCKER_TLS_CERTDIR: "/certs"
