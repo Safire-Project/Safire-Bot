@@ -12,6 +12,7 @@ import { TOPICS, EVENTS } from '../../lib/logger/index';
 export default class CommandErrorLoggingEvent extends Listener<
   typeof Events.CommandError
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandError,
@@ -20,8 +21,11 @@ export default class CommandErrorLoggingEvent extends Listener<
   }
 
   // eslint-disable-next-line functional/no-return-void
-  public async run(error: Error, payload: CommandErrorPayload): Promise<void> {
-    // eslint-disable-next-line promise/no-promise-in-callback
+  public async run(
+    error: Readonly<Error>,
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+    payload: CommandErrorPayload,
+  ): Promise<void> {
     return this.container.logger.warn(
       `Command: [${payload.command.name}] - Message: [${payload.message.content}] - Error Name: [${error.name}] -  Error Message: [${error.message}]`,
       TOPICS.SAPPHIRE,

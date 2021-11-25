@@ -56,7 +56,7 @@ overrides:
       - plugin:unicorn/recommended
       - plugin:node/recommended
       - plugin:functional/recommended
-      - plugin:functional/stylitic
+      - plugin:functional/stylistic
       - plugin:typescript-sort-keys/recommended
       - plugin:eslint-comments/recommended
       #- plugin:sonarjs/recommended

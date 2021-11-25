@@ -7,6 +7,7 @@ import { EVENTS, TOPICS } from '../../../lib/logger';
 export default class ShardErrorLoggingEvent extends Listener<
   typeof Events.ShardError
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,
@@ -14,7 +15,7 @@ export default class ShardErrorLoggingEvent extends Listener<
     });
   }
 
-  async run(error: Error, shardID: number): Promise<void> {
+  async run(error: Readonly<Error>, shardID: number): Promise<void> {
     return this.container.logger.error(
       `ID: [${shardID}] - Name: [${error.name}] - Message: [${
         error.message

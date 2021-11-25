@@ -14,6 +14,7 @@ import { TOPICS, EVENTS } from '../../lib/logger/index';
 export default class CommandFinishLoggingEvent extends Listener<
   typeof Events.CommandFinish
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandFinish,
@@ -22,8 +23,11 @@ export default class CommandFinishLoggingEvent extends Listener<
   }
 
   public async run(
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     message: Message,
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     command: SafireCommand,
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     payload: CommandFinishPayload,
   ): Promise<void> {
     this.container.logger.debug(

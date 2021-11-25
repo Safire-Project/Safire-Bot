@@ -11,6 +11,7 @@ import SafireResult from '../../lib/types/safire-result';
 export default class CommandFeedbackEvent extends Listener<
   typeof Events.CommandSuccess
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandSuccess,
@@ -18,7 +19,7 @@ export default class CommandFeedbackEvent extends Listener<
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   public run({
     command,
     message,
@@ -27,7 +28,7 @@ export default class CommandFeedbackEvent extends Listener<
     return pipe(
       result,
       match(
-        (error: Error) =>
+        (error: Readonly<Error>) =>
           message.reply({
             embeds: [
               new MessageEmbed()
@@ -39,11 +40,13 @@ export default class CommandFeedbackEvent extends Listener<
         (safireResult: SafireResult) =>
           (safireResult.options.sendPayload
             ? message.reply(safireResult.payload)
-            : new Promise(() => {})
+            : // eslint-disable-next-line functional/no-return-void
+              new Promise(() => {})
           ).then(() =>
             safireResult.options.printResult
               ? message.reply(safireResult.message)
-              : new Promise(() => {}),
+              : // eslint-disable-next-line functional/no-return-void
+                new Promise(() => {}),
           ),
       ),
     );

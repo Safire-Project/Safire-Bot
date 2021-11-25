@@ -7,6 +7,7 @@ import { EVENTS, TOPICS } from '../../../lib/logger';
 export default class DiscordErrorLoggingEvent extends Listener<
   typeof Events.Error
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,
@@ -14,7 +15,7 @@ export default class DiscordErrorLoggingEvent extends Listener<
     });
   }
 
-  async run(error: Error): Promise<void> {
+  async run(error: Readonly<Error>): Promise<void> {
     return this.container.logger.error(
       `[${error.name}] - [${error.message}] - [${
         error.stack ?? 'no stack trace.'

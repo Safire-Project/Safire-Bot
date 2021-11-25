@@ -4,13 +4,13 @@ Bryn (Safire Project) */
 import Transport, { TransportStreamOptions } from 'winston-transport';
 
 export default class NullTransport extends Transport {
-  public constructor(options: TransportStreamOptions) {
+  public constructor(options: Readonly<TransportStreamOptions>) {
     super(options);
   }
 
   public log(
     info: readonly unknown[],
-    callback: { (transport: NullTransport): void },
+    callback: { (transport: Readonly<NullTransport>): void },
   ): readonly unknown[] {
     callback(this);
     return info;

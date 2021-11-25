@@ -7,6 +7,7 @@ import { EVENTS, TOPICS } from '../../../lib/logger';
 export default class DiscordReadyLoggingEvent extends Listener<
   typeof Events.ClientReady
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,

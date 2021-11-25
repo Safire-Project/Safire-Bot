@@ -8,6 +8,7 @@ import { Message } from 'discord.js';
 export default class MessageTokenFilterEvent extends Listener<
   typeof Events.MessageCreate
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,
@@ -15,6 +16,7 @@ export default class MessageTokenFilterEvent extends Listener<
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   async run(message: Message): Promise<Message | undefined | void> {
     const matches = /([\w-]+={0,2})(?:\.[\w-]+={0,2}){2}/.exec(message.content);
     return !matches ||
@@ -30,6 +32,8 @@ export default class MessageTokenFilterEvent extends Listener<
 				https://i.imgur.com/XtQsR9s.png`,
           )
           .then(() => (!message.deletable ? undefined : message.delete()))
+          //TODO fp-ts this
+          // eslint-disable-next-line functional/no-return-void
           .then((deletedMessage) =>
             !deletedMessage
               ? undefined

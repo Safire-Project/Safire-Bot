@@ -12,6 +12,7 @@ import { TOPICS, EVENTS } from '../../lib/logger/index';
 export default class CommandAcceptedLoggingEvent extends Listener<
   typeof Events.CommandAccepted
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandAccepted,
@@ -19,7 +20,7 @@ export default class CommandAcceptedLoggingEvent extends Listener<
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   public async run({
     message,
     command,

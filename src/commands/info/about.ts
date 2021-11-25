@@ -7,8 +7,10 @@ import { MessageEmbed } from 'discord.js';
 import { right } from 'fp-ts/lib/Either';
 import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
+import { ReadonlyDiscordEmbedField } from '../../lib/types/util';
 
 export default class AboutCommand extends SafireCommand {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       aliases: ['a', 'safire', 'botinfo', 'safireinfo', 'saf'],
@@ -81,7 +83,7 @@ export default class AboutCommand extends SafireCommand {
                   'No Version Information Available'
                 }`,
               },
-            ].map((field) => ({
+            ].map((field: ReadonlyDiscordEmbedField) => ({
               name: compose(bold, underline)`${field.name}`,
               value: field.value,
             })),

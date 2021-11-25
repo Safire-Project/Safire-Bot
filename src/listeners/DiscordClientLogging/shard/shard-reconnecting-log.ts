@@ -7,6 +7,7 @@ import { EVENTS, TOPICS } from '../../../lib/logger';
 export default class ShardReconnectingLoggingEvent extends Listener<
   typeof Events.ShardReconnecting
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,

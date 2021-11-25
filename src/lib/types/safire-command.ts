@@ -27,7 +27,8 @@ export default abstract class SafireCommand extends Command {
    */
   public readonly fullCategory: readonly string[];
 
-  public constructor (context: PieceContext, options: CommandOptions) {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  public constructor(context: PieceContext, options: Readonly<CommandOptions>) {
     super(context, options);
 
     const paths = context.path.split(sep);
@@ -35,7 +36,9 @@ export default abstract class SafireCommand extends Command {
   }
 
   public abstract messageRun(
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     message: Message,
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     commandArguments: Args,
   ): Promise<SafireEither> | SafireEither;
 }

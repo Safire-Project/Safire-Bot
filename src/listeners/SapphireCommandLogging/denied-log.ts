@@ -13,6 +13,7 @@ import { TOPICS, EVENTS } from '../../lib/logger/index';
 export default class CommandDeniedLoggingEvent extends Listener<
   typeof Events.CommandDenied
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandDenied,
@@ -20,9 +21,9 @@ export default class CommandDeniedLoggingEvent extends Listener<
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
   public async run(
-    error: UserError,
+    error: Readonly<UserError>,
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     { message, command }: CommandDeniedPayload,
   ): Promise<void> {
     this.container.logger.debug(

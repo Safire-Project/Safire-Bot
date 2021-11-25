@@ -2,10 +2,9 @@
 Bryn (Safire Project) */
 
 import { config, createLogger, format, Logform, transports } from 'winston';
+import { ReadonlyDeep } from 'type-fest';
 import DiscordTransport from './discord-transport';
-import { EVENTS as EVENTS_ENUM } from './events';
 import NullTransport from './null-transport';
-import { TOPICS as TOPICS_ENUM } from './topics';
 import 'winston-daily-rotate-file';
 
 export const logger = createLogger({
@@ -19,28 +18,30 @@ export const logger = createLogger({
       format: format.combine(
         format.colorize({ level: true, message: true }),
         format.timestamp({ format: 'HH:mm:ss' }),
-        format.printf((info: Logform.TransformableInfo): string => {
-          const {
-            timestamp,
-            label,
-            level,
-            message,
-            topic,
-            event,
-            ...rest
-          }: Logform.TransformableInfo & {
-            readonly event?: string;
-            readonly label?: string;
-            readonly topic?: string;
-          } = info;
-          return `\u001B[7m${level}\u001B[0m ${
-            timestamp as string
-          } from \u001B[2m\u001B[36m${label ?? ''}\u001B[0m for ${
-            event ?? 'NO EVENT GIVEN'
-          } in ${topic ?? 'NO TOPIC GIVEN'} ⇒ ${message} ${
-            Object.keys(rest).length > 0 ? JSON.stringify(rest) : ''
-          }`;
-        }),
+        format.printf(
+          (info: ReadonlyDeep<Logform.TransformableInfo>): string => {
+            const {
+              timestamp,
+              label,
+              level,
+              message,
+              topic,
+              event,
+              ...rest
+            }: Logform.TransformableInfo & {
+              readonly event?: string;
+              readonly label?: string;
+              readonly topic?: string;
+            } = info;
+            return `\u001B[7m${level}\u001B[0m ${
+              timestamp as string
+            } from \u001B[2m\u001B[36m${label ?? ''}\u001B[0m for ${
+              event ?? 'NO EVENT GIVEN'
+            } in ${topic ?? 'NO TOPIC GIVEN'} ⇒ ${message} ${
+              Object.keys(rest).length > 0 ? JSON.stringify(rest) : ''
+            }`;
+          },
+        ),
       ),
       level: process.env['NODE_ENV'] === 'development' ? 'verbose' : 'debug',
     }),
@@ -77,5 +78,5 @@ export const logger = createLogger({
   exitOnError: true,
 });
 
-export const EVENTS = EVENTS_ENUM;
-export const TOPICS = TOPICS_ENUM;
+export { EVENTS } from './events';
+export { TOPICS } from './topics';

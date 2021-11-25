@@ -11,6 +11,7 @@ import SafireResult from '../../lib/types/safire-result';
 export default class CommandSuccessLoggingEvent extends Listener<
   typeof Events.CommandSuccess
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.CommandSuccess,
@@ -18,7 +19,7 @@ export default class CommandSuccessLoggingEvent extends Listener<
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   public async run({
     args,
     command,
@@ -27,38 +28,36 @@ export default class CommandSuccessLoggingEvent extends Listener<
     parameters,
     result,
   }: SafireCommandSuccessPayload): Promise<void> {
-    return pipe(
-      result,
-      match(
-        async (error: Error) =>
-          this.container.logger.error(
-            `Command: [${command.name}] - Message: [${
-              message.content
-            }] - String Args: [${
-              (await args.repeatResult('string')).value?.toString() ?? ''
-            }] - Command Prefix: [${
-              context.commandPrefix
-            }] - Parameters: [${parameters.toString()}] - User Error: [${
-              error.message
-            }]`,
-            TOPICS.SAPPHIRE,
-            EVENTS.COMMAND_ERROR,
+    return args
+      .repeatResult('string')
+      .then(
+        (resultString) =>
+          `Command: [${command.name}] - Message: [${
+            message.content
+          }] - String Args: [${
+            resultString.value?.toString() ?? ''
+          }] - Command Prefix: [${
+            context.commandPrefix
+          }] - Parameters: [${parameters.toString()}]`,
+      )
+      .then((reportString) =>
+        pipe(
+          result,
+          match(
+            async (error: Readonly<Error>) =>
+              this.container.logger.error(
+                `${reportString} - User Error: [${error.message}]`,
+                TOPICS.SAPPHIRE,
+                EVENTS.COMMAND_ERROR,
+              ),
+            async (safireResult: SafireResult) =>
+              this.container.logger.info(
+                `${reportString} - Result: [${safireResult.message}]`,
+                TOPICS.SAPPHIRE,
+                EVENTS.COMMAND_SUCCESS,
+              ),
           ),
-        async (safireResult: SafireResult) =>
-          this.container.logger.info(
-            `Command: [${command.name}] - Message: [${
-              message.content
-            }] - String Args: [${
-              (await args.repeatResult('string')).value?.toString() ?? ''
-            }] - Command Prefix: [${
-              context.commandPrefix
-            }] - Parameters: [${parameters.toString()}] - Result: [${
-              safireResult.message
-            }]`,
-            TOPICS.SAPPHIRE,
-            EVENTS.COMMAND_SUCCESS,
-          ),
-      ),
-    );
+        ),
+      );
   }
 }

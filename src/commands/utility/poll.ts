@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, header/header */
 /* SPDX-License-Identifier: MIT OR CC0-1.0
 Bryn (Safire Project) */
 
@@ -8,6 +9,7 @@ Bryn (Safire Project) */
 // TODO Allow up to 25 options
 // TODO Add flag for different graph types
 // TODO Add flag for timeout to remove buttons/close poll
+// eslint-disable-next-line write-good-comments/write-good-comments
 // TODO Add flag to allow for multiple answers
 
 import {
@@ -81,9 +83,11 @@ export default class PollCommand extends SafireCommand {
     commandArguments: Args,
   ): Promise<SafireEither> {
     const parsedAnswers = (await commandArguments.start().rest('string'))
+      // eslint-disable-next-line unicorn/no-await-expression-member
       .split(this.delimiter)
       .slice(1)
       .map((answer) => answer.trim());
+    // eslint-disable-next-line unicorn/no-await-expression-member
     return !(await commandArguments.start().peekResult('string')).success
       ? Promise.reject(new Error('You need to provide a poll question.'))
       : this.getPollQuestion(commandArguments)
@@ -146,27 +150,30 @@ export default class PollCommand extends SafireCommand {
     commandArguments: Args,
     salt: Snowflake,
   ): Promise<void> {
-    return message
-      .edit({
-        embeds: [
-          new MessageEmbed(message.embeds[0]).setFooter(
-            'This Poll Has Now Concluded',
+    return (
+      message
+        .edit({
+          embeds: [
+            new MessageEmbed(message.embeds[0]).setFooter(
+              'This Poll Has Now Concluded',
+            ),
+          ],
+          components: [],
+        })
+        .then(async () =>
+          this.pollCache.delete(
+            `${await this.getPollQuestion(commandArguments)}-${salt}`,
           ),
-        ],
-        components: [],
-      })
-      .then(async () =>
-        this.pollCache.delete(
-          `${await this.getPollQuestion(commandArguments)}-${salt}`,
-        ),
-      )
-      .then(() =>
-        this.container.logger.info(
-          `Poll collected ${interactionCollector.size} results`,
-          TOPICS.POLL,
-          EVENTS.FINISH,
-        ),
-      );
+        )
+        // eslint-disable-next-line functional/no-return-void
+        .then(() =>
+          this.container.logger.info(
+            `Poll collected ${interactionCollector.size} results`,
+            TOPICS.POLL,
+            EVENTS.FINISH,
+          ),
+        )
+    );
   };
 
   private readonly applyCollector =
@@ -393,3 +400,5 @@ export default class PollCommand extends SafireCommand {
       : value.toLocaleString().slice(0, 1500 / organizedPollData.size);
   }
 }
+
+/* eslint-enable @typescript-eslint/prefer-readonly-parameter-types, header/header */

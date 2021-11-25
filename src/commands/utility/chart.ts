@@ -14,6 +14,7 @@ export default class ChartCommand extends SafireCommand {
     height: 400,
   });
 
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       aliases: ['ch'],

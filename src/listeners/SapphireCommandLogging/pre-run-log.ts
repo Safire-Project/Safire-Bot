@@ -12,6 +12,7 @@ import { TOPICS, EVENTS } from '../../lib/logger/index';
 export default class PreCommandRunLoggingEvent extends Listener<
   typeof Events.PreCommandRun
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     const options = {
       event: Events.PreCommandRun,
@@ -19,7 +20,7 @@ export default class PreCommandRunLoggingEvent extends Listener<
     super(context, options);
   }
 
-  // eslint-disable-next-line functional/no-return-void
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   public async run({ message, command }: PreCommandRunPayload): Promise<void> {
     this.container.logger.debug(
       `Command: [${command.name}] - Message: [${message.content}]`,

@@ -6,6 +6,7 @@ import { Listener, Events, PieceContext } from '@sapphire/framework';
 export default class DiscordReadyCIDummyEvent extends Listener<
   typeof Events.ClientReady
 > {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   constructor(context: PieceContext) {
     super(context, {
       once: true,

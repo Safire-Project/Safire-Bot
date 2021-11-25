@@ -10,7 +10,7 @@ import { COLORS } from '../types/colors';
 /**
  * Options for Discord transport for winston
  */
-type DiscordTransportOptions = TransportStreamOptions & {
+type DiscordTransportOptions = Readonly<TransportStreamOptions> & {
   readonly discord?: boolean;
   readonly webhookUrl: string;
 };
@@ -54,7 +54,7 @@ export default class DiscordTransport extends Transport {
    * @param callback - Callback to winston to complete the log
    */
   public log(
-    info: LoggerElements,
+    info: Readonly<LoggerElements>,
     // eslint-disable-next-line functional/no-return-void
     callback: () => void,
     // eslint-disable-next-line functional/no-return-void
@@ -73,6 +73,7 @@ export default class DiscordTransport extends Transport {
           )
           .addField('Host', os.hostname()),
       )
+      // eslint-disable-next-line functional/no-return-void
       .catch((error) => console.error(error));
     return callback();
   }

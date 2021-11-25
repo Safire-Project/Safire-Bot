@@ -8,7 +8,8 @@ import SafireCommand, { SafireEither } from '../../lib/types/safire-command';
 import SafireResult from '../../lib/types/safire-result';
 
 export default class PlayCommand extends SafireCommand {
-  constructor(context: PieceContext) {
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  constructor(readonly context: PieceContext) {
     super(context, {
       aliases: ['p', 'pl'],
       description: 'Adds a track to the audio queue.',
@@ -18,6 +19,7 @@ export default class PlayCommand extends SafireCommand {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   messageRun(message: Message): SafireEither {
     return right(
       new SafireResult(
