@@ -203,7 +203,6 @@ export default class PollCommand extends SafireCommand {
                 oldKey ?? cachedPollData.firstKey() ?? '',
               );
               const organizedPollData = cachedPollData
-                .clone()
                 .set(
                   oldKey ?? cachedPollData.firstKey() ?? '',
                   oldData?.filter((voter) =>
