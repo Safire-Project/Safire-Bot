@@ -106,7 +106,7 @@ export default class HelpCommand extends SafireCommand {
                         ),
                       ),
                     {
-                      printResult: true,
+                      printResult: false,
                       sendPayload: true,
                     },
                   ),
@@ -176,7 +176,7 @@ export default class HelpCommand extends SafireCommand {
                         ),
                     ),
                   {
-                    printResult: true,
+                    printResult: false,
                     sendPayload: true,
                   },
                 ),

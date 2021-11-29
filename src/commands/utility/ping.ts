@@ -57,7 +57,7 @@ export default class PingCommand extends SafireCommand {
                     inline: true,
                   },
                 ]),
-              { printResult: true, sendPayload: true },
+              { printResult: false, sendPayload: true },
             ),
           ),
         )

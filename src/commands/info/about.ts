@@ -89,7 +89,7 @@ export default class AboutCommand extends SafireCommand {
             })),
           ),
         {
-          printResult: true,
+          printResult: false,
           sendPayload: true,
         },
       ),
