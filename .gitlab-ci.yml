@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT OR CC0-1.0
 # Bryn (Safire Project)
 
-image: node:17.0.1-alpine3.14
+image: node:17.1.0-alpine3.14
 
 variables:
   SAST_EXPERIMENTAL_FEATURES: "true"
@@ -90,9 +90,9 @@ compile-typescript:
     - tags
 
 docker-build:
-  image: docker:20.10.10
+  image: docker:20.10.11
   services:
-    - docker:20.10.10-dind
+    - docker:20.10.11-dind
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -115,10 +115,10 @@ upload-package:
     - tags
 
 staging-test:
-  image: docker:20.10.10
+  image: docker:20.10.11
   stage: staging
   services:
-    - docker:20.10.10-dind
+    - docker:20.10.11-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
